@@ -22,6 +22,7 @@ updated: 2026-06-07
 | Cloudflare WAF | ✅ | ✅ | ✅ rate-based | Free → Enterprise/ปี |
 | AWS WAF + Shield | ✅ | ✅ | ✅ rate-based | Pay-per-request |
 | Huawei Cloud WAF | ✅ | ✅ | ✅ rate-based | Pay-per-use |
+| Tencent Cloud WAF | ✅ | ✅ | ✅ rate-based | Pay-per-use |
 | Akamai App & API Protector | ✅ | ✅ | ✅ behavioral | Enterprise |
 | Imperva WAF | ✅ | ✅ | ✅ behavioral | Enterprise/ปี |
 | Fastly WAF (Signal Sciences) | ✅ | ✅ | ✅ threshold-based | Mid-Enterprise |
@@ -50,13 +51,13 @@ Ant2 (event-based):       10 WAF violations (SQLi/XSS/RCE) → block
 
 ## ความเร็ว
 
-| ความสามารถ | Ant2 | Cloudflare | AWS WAF | Huawei Cloud WAF |
-|-----------|------|------------|---------|-----------------|
-| ตรวจจับ config เปลี่ยน | ทันที (kernel-level) | Managed | API push (~1-5s) | Managed (~seconds) |
-| ทดสอบก่อน apply | ✅ | N/A | N/A | N/A |
-| Apply โดยไม่ drop connection | ✅ Zero downtime | ✅ | ✅ | ✅ |
-| GeoIP lookup | < 1ms (in-memory) | CDN-edge | CDN-edge | CDN-edge |
-| Streaming / SSE รองรับ | ✅ ไม่มีปัญหา | ⚠️ ขึ้นอยู่กับ config | ⚠️ | ❌ มีปัญหา |
+| ความสามารถ | Ant2 | Cloudflare | AWS WAF | Huawei Cloud WAF | Tencent Cloud WAF |
+|-----------|------|------------|---------|-----------------|-----------------|
+| ตรวจจับ config เปลี่ยน | ทันที (kernel-level) | Managed | API push (~1-5s) | Managed (~seconds) | Managed (~seconds) |
+| ทดสอบก่อน apply | ✅ | N/A | N/A | N/A | N/A |
+| Apply โดยไม่ drop connection | ✅ Zero downtime | ✅ | ✅ | ✅ | ✅ |
+| GeoIP lookup | < 1ms (in-memory) | CDN-edge | CDN-edge | CDN-edge | CDN-edge |
+| Streaming / SSE รองรับ | ✅ ไม่มีปัญหา | ⚠️ ขึ้นอยู่กับ config | ⚠️ | ❌ มีปัญหา | ⚠️ น่าจะมีปัญหา |
 
 ---
 
@@ -101,6 +102,7 @@ Server ส่ง SSE stream → Huawei WAF รับและ buffer ทั้�
 | Cloudflare | ⚠️ รองรับบางส่วน | ต้องตั้งค่า enterprise plan / ขึ้นอยู่กับ feature |
 | AWS WAF | ⚠️ รองรับบางส่วน | ขึ้นอยู่กับ load balancer config |
 | **Huawei Cloud WAF** | ❌ มีปัญหา | Buffering + timeout ทำให้ SSE ไม่ทำงาน real-time |
+| **Tencent Cloud WAF** | ⚠️ น่าจะมีปัญหา | Cloud WAF แบบ proxy-based — SSE ต้องใช้ `X-Accel-Buffering: no` workaround จึงจะทำงานได้ |
 | FortiWeb | ⚠️ รองรับบางส่วน | ต้องปิด response buffering เอง |
 
 > Ant2Cloud ออกแบบมาให้รองรับ **real-time streaming** ตั้งแต่ต้น — ไม่ว่าจะเป็น AI chat, live monitoring, หรือ event-driven application ทำงานได้ผ่าน WAF โดยไม่ต้อง workaround
@@ -142,15 +144,15 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 
 ## Ant2Cloud — Commercial Appliance
 
-| | Ant2Cloud | Cloudflare Business | Huawei Cloud WAF | FortiWeb (HW) |
-|--|-----------|--------------------|-----------------| --------------|
-| **ราคา** | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | Pay-per-use/ปี | $10,000–$50,000 |
-| GeoIP Block | ✅ | ✅ | ✅ | ✅ |
-| Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ rate-based | ✅ |
-| SSE / Streaming | ✅ | ⚠️ | ❌ | ⚠️ |
-| Data Sovereignty | ✅ 100% on-premise | ❌ | ❌ ผ่าน Huawei Cloud | ✅ |
-| ค่าบริการรายเดือน | ❌ ไม่มี | ✅ มี | ✅ มี | ❌ ไม่มี |
-| Support | 🇹🇭 ไทย local | Global | Global | Partner |
+| | Ant2Cloud | Cloudflare Business | Huawei Cloud WAF | Tencent Cloud WAF | FortiWeb (HW) |
+|--|-----------|--------------------|-----------------|-----------------| --------------|
+| **ราคา** | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | Pay-per-use/ปี | Pay-per-use/ปี | $10,000–$50,000 |
+| GeoIP Block | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ rate-based | ✅ rate-based | ✅ |
+| SSE / Streaming | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
+| Data Sovereignty | ✅ 100% on-premise | ❌ | ❌ ผ่าน Huawei Cloud | ❌ ผ่าน Tencent Cloud | ✅ |
+| ค่าบริการรายเดือน | ❌ ไม่มี | ✅ มี | ✅ มี | ✅ มี | ❌ ไม่มี |
+| Support | 🇹🇭 ไทย local | Global | Global | Global | Partner |
 
 🌐 [ant2cloud.com](https://ant2cloud.com)
 
