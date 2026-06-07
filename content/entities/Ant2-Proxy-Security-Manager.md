@@ -27,7 +27,7 @@ Full-stack NGINX reverse-proxy GUI with integrated [[ModSecurity]] v3 + [[OWASP-
 
 | Component | Spec |
 |-----------|------|
-| CPU / GPU | 24-core GPU |
+| CPU | 12-core / 24 vCPU |
 | RAM | 64 GB |
 | Storage | 2 TB HDD |
 | VM Capacity | รองรับได้ 20 VMs |

@@ -28,7 +28,7 @@ GPON Fiber ──→ [ Ant2Cloud Box ] ──→ Private Cloud
 
 | Hardware | Spec |
 |----------|------|
-| GPU / CPU | 24-core |
+| CPU | 12-core / 24 vCPU |
 | RAM | 64 GB |
 | Storage | 2 TB |
 | VM Capacity | 20 VMs |
