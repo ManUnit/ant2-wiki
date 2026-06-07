@@ -54,6 +54,8 @@ GPON Fiber ──→ [ Ant2Cloud Box ] ──→ Private Cloud
 | ค่าใช้จ่าย | รายเดือนตลอดชีพ | **ซื้อครั้งเดียว** |
 | Internet | ต้องการตลอด | **ทำงานได้ offline บางส่วน** |
 | การควบคุม | vendor lock-in | **คุณเป็นเจ้าของ 100%** |
+| GeoIP Filter | มักคิดเงินแยก | **มีในตัว — เลือกประเทศได้** |
+| Static IP | ต้องซื้อจาก ISP | **ไม่ต้อง — DDNS built-in** |
 | VOIP | ซื้อ PABX แยก | **มีในตัว** |
 | Router | ซื้อแยก | **มีในตัว** |
 | ONU/ONT | ซื้อแยก | **มีในตัว** |
@@ -71,6 +73,21 @@ Ant2Cloud มาพร้อม **Ant2 WAF** ที่พัฒนาโดย�
 ชั้น 2 → IP Jail        จับ attacker อัตโนมัติ ภายใน 20 วินาที
 ชั้น 3 → WAF Rules      OWASP CRS 4.26.0 — SQLi, XSS, RCE, LFI
 ```
+
+### GeoIP Country Filter — เสิร์ฟเฉพาะประเทศที่ต้องการ
+
+Ant2Cloud รองรับการตั้งค่า **Allow List** หรือ **Block List** ระดับประเทศ:
+
+```
+โหมด Allow List:  อนุญาต TH เท่านั้น → บล็อกทุกประเทศอื่น ✅
+โหมด Block List:  บล็อก CN, RU, KP  → อนุญาตทุกประเทศอื่น ✅
+```
+
+- ระบุได้ทั้ง **รายโฮสต์** (per-host) และ **global** ทุก domain พร้อมกัน
+- ใช้ฐานข้อมูล **MaxMind GeoLite2** (ฟอร์แมต `.mmdb`) อ่านตรงจาก memory — **latency < 1ms ต่อ request**
+- ผลการค้นหา cache ใน **Redis** — request ซ้ำหาไม่ต้อง lookup อีก
+- รองรับ **Cloudflare CDN** ด้วย 2-stage IP map (ไม่ต้องกังวล CF header)
+- ใช้ร่วมกับ **IP Jail** ได้ทันที — บล็อกประเทศก่อน จับ attacker ที่เหลือ
 
 ### IP Jail — นวัตกรรมที่แตกต่าง
 

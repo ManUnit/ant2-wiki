@@ -37,7 +37,7 @@ Full-stack NGINX reverse-proxy GUI with integrated [[ModSecurity]] v3 + [[OWASP-
 
 | Feature | Detail |
 |---------|--------|
-| **Ant2 WAF** | NGINX + OWASP CRS — GeoIP, IP Jail, rate limiting |
+| **Ant2 WAF** | NGINX + OWASP CRS — GeoIP country filter, IP Jail, rate limiting |
 | **Smart Router** | Built-in smart router ในตัว |
 | **ONU / ONT** | Built-in — เสียบสาย GPON fiber ได้ตรงเลย ไม่ต้องซื้อ ONU แยก |
 | **IP Phone Server** | VOIP server ในตัว — รองรับ IP Phone ทั้ง office |
@@ -64,6 +64,35 @@ Domain ของคุณชี้มาถูกต้องแล้ว ✅
 | ต้องการ Static IP | ✅ ต้องซื้อ (~฿500/เดือน) | ❌ ไม่ต้อง |
 | ใช้ domain ของตัวเอง | ❌ IP เปลี่ยนได้ | ✅ ใช้ได้ตลอด |
 | downtime เมื่อ IP เปลี่ยน | นาที–ชั่วโมง | **< 15 วินาที** |
+
+### GeoIP Country Filter — เปิด/ปิดประเทศได้ทันที
+
+Ant2Cloud ให้เว็บไซต์คุณ **บริการเฉพาะประเทศที่ต้องการ** ด้วย GeoIP ที่ทำงานเร็วมาก:
+
+| ความสามารถ | รายละเอียด |
+|------------|-----------|
+| **Allow List Mode** | อนุญาตเฉพาะประเทศที่เลือก → บล็อกทุกประเทศอื่นอัตโนมัติ |
+| **Block List Mode** | บล็อกประเทศที่ต้องการ → อนุญาตทุกประเทศที่เหลือ |
+| **ตั้งค่าแบบ per-host** | แต่ละ domain มี GeoIP rule ของตัวเอง |
+| **ตั้งค่าแบบ global** | บล็อก/อนุญาตพร้อมกันทุก domain |
+
+**ฐานข้อมูลและความเร็ว:**
+
+- ใช้ **MaxMind GeoLite2** (ฟอร์แมต `.mmdb`) — มาตรฐานอุตสาหกรรมระดับโลก
+- NGINX อ่าน MMDB โดยตรงจาก **memory** — latency **< 1ms ต่อ request**
+- ผลลัพธ์ cache เพิ่มใน **Redis** — request ซ้ำไม่ต้อง lookup ใหม่
+- รองรับ **Cloudflare CDN** ด้วย 2-stage map (ตรวจ `CF-Connecting-IP` header)
+
+```
+Request มาถึง
+  ↓ NGINX ตรวจ IP จาก Cloudflare header หรือ TCP source
+  ↓ Lookup จาก GeoLite2.mmdb (< 1ms, in-memory)
+  ↓ เทียบกับ allow/block list
+  ↓ ถ้าบล็อก → HTTP 423 + custom block page
+  ↓ ถ้าผ่าน → ต่อไปยัง WAF rules + IP Jail
+```
+
+> ตัวอย่างการใช้งาน: ร้านค้าออนไลน์ไทย → Allow TH เท่านั้น ตัดการโจมตีจากต่างประเทศได้ 90%+ ก่อนถึง WAF
 
 ### แนวคิด: Private Cloud ที่บ้านและ Office
 
