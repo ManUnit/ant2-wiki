@@ -3,5 +3,6 @@
   "outputDirectory": "public",
   "installCommand": "npm install",
   "framework": null,
-  "cleanUrls": true
+  "cleanUrls": true,
+  "nodeVersion": "22.x"
 }
