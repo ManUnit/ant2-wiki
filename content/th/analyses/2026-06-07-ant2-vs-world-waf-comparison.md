@@ -25,7 +25,6 @@ updated: 2026-06-07
 | Akamai App & API Protector | ✅ | ✅ | ✅ behavioral | Enterprise |
 | Imperva WAF | ✅ | ✅ | ✅ behavioral | Enterprise/ปี |
 | Fastly WAF (Signal Sciences) | ✅ | ✅ | ✅ threshold-based | Mid-Enterprise |
-| Fail2Ban + nginx + CRS | ✅ (manual) | ✅ | ✅ log-based | Free (ต้องตั้งเอง) |
 | CrowdSec + Bouncer | ✅ | ✅ | ✅ scenario-based | Free / Paid |
 | FortiWeb / F5 BIG-IP | ✅ | ✅ | ✅ IP Intelligence | Enterprise |
 | WAF Engine เปล่า (ไม่มี GUI) | ❌ | ❌ | ❌ | Free |
@@ -123,18 +122,18 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 
 ## เทียบกับ Free/OSS Alternatives
 
-| Feature | Ant2 | Fail2Ban | CrowdSec |
-|---------|------|----------|----------|
-| Management GUI | ✅ | ❌ | ⚠️ |
-| GeoIP block | ✅ Per-host + global | ⚠️ Global only | ✅ |
-| Auto-jail | ✅ WAF-event-based | ✅ log-based | ✅ |
-| Swarm Attack Protection | ✅ GeoIP + event-jail + rate | ⚠️ rate only | ⚠️ |
-| Attack Domain Identification | ✅ real-time per domain | ❌ | ❌ |
-| SSL management | ✅ Let's Encrypt + manual | ❌ | ❌ |
-| Custom error pages | ✅ | ❌ | ❌ |
-| SSE / Streaming | ✅ | ✅ | ✅ |
-| Data sovereignty | ✅ 100% on-premise | ✅ | ✅ |
-| Cost | **Free** | Free | Free / Paid |
+| Feature | Ant2 | CrowdSec |
+|---------|------|----------|
+| Management GUI | ✅ | ⚠️ |
+| GeoIP block | ✅ Per-host + global | ✅ |
+| Auto-jail | ✅ WAF-event-based | ✅ |
+| Swarm Attack Protection | ✅ GeoIP + event-jail + rate | ⚠️ |
+| Attack Domain Identification | ✅ real-time per domain | ❌ |
+| SSL management | ✅ Let's Encrypt + manual | ❌ |
+| Custom error pages | ✅ | ❌ |
+| SSE / Streaming | ✅ | ✅ |
+| Data sovereignty | ✅ 100% on-premise | ✅ |
+| Cost | **฿250,000 (ครั้งเดียว)** | Free / Paid |
 
 ---
 
