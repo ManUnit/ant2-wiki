@@ -65,26 +65,25 @@ Domain ของคุณชี้มาถูกต้องแล้ว ✅
 | ใช้ domain ของตัวเอง | ❌ IP เปลี่ยนได้ | ✅ ใช้ได้ตลอด |
 | downtime เมื่อ IP เปลี่ยน | นาที–ชั่วโมง | **< 15 วินาที** |
 
-### Cloudflare Integration — ซ่อน IP เครื่อง + ดึง Real User IP
+### Real IP Detection — ระบุ IP จริงได้เสมอ ไม่ว่าจะผ่านกี่ชั้น
 
-Ant2Cloud ทำงานร่วมกับ **Cloudflare** เพื่อความปลอดภัยสูงสุด:
+**Ant2WAF วิเคราะห์และระบุ IP จริงของ user หรือ attacker ได้เสมอ ไม่ว่าจะผ่านกี่ชั้น** — CDN, reverse proxy, load balancer, หรือ firewall คั่นอยู่กี่ตัวก็ตาม
 
 ```
-User ──→ Cloudflare CDN ──→ Ant2Cloud Box ──→ Website
-                              │
-                    วิเคราะห์ต้นทาง traffic
-                    ระบุ IP ผู้ใช้จริงโดยอัตโนมัติ
+User ──→ CDN / Proxy / Load Balancer ──→ Ant2Cloud Box ──→ Website
+                                               │
+                                  วิเคราะห์และระบุ IP ต้นทางจริง
+                                  ได้เสมอ โดยอัตโนมัติ
 ```
 
 | ประโยชน์ | รายละเอียด |
 |----------|-----------|
-| **ซ่อน Origin IP** | IP เครื่อง Ant2Cloud ไม่เปิดเผยต่อ public — Cloudflare เป็น shield |
-| **ระบุ IP ต้นทาง** | วิเคราะห์ต้นทางจริงของ traffic ได้แม้ผ่านหลายชั้น |
+| **ซ่อน Origin IP** | IP เครื่อง Ant2Cloud ไม่เปิดเผยต่อ public — CDN เป็น shield |
+| **ระบุ IP ต้นทางจริง** | วิเคราะห์ได้แม้ traffic ผ่านหลาย proxy layer |
 | **GeoIP ถูกต้อง** | ตรวจสอบประเทศจาก IP ผู้ใช้จริง ไม่ใช่ IP ของ CDN node |
-| **IP Jail ถูกต้อง** | Jail ผู้โจมตีจริง — ไม่ Jail Cloudflare CDN โดยไม่ตั้งใจ |
+| **IP Jail ถูกต้อง** | Jail ผู้โจมตีจริง — ไม่ Jail CDN โดยไม่ตั้งใจ |
 | **Block ถูกต้อง** | block/unblock กระทำกับ attacker จริง ไม่ใช่ intermediary |
-
-ไม่ว่า traffic จะมาจาก Cloudflare หรือตรง — Ant2WAF ระบุ IP ต้นทางจริงได้เสมอ โดยอัตโนมัติ
+| **ทำงานอัตโนมัติ** | ไม่ต้องตั้งค่าเพิ่ม รองรับได้ทุก CDN และ proxy |
 
 ### GeoIP Country Filter — เปิด/ปิดประเทศได้ทันที
 

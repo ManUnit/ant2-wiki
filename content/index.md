@@ -74,23 +74,22 @@ Ant2Cloud มาพร้อม **Ant2 WAF** ที่พัฒนาโดย�
 ชั้น 3 → WAF Rules      ตรวจจับ SQLi, XSS, RCE, LFI อัตโนมัติ
 ```
 
-### Cloudflare Shield + Real IP Extraction — ซ่อน IP เครื่อง แต่ block User ได้ถูกต้อง
+### Real IP Detection — ระบุ IP จริงของ user หรือ attacker ได้เสมอ ไม่ว่าจะผ่านกี่ชั้น
 
 ```
-User → Cloudflare CDN → [ Ant2Cloud Box ] → Website
-         (IP เครื่องซ่อนอยู่)    ↑
-                      วิเคราะห์และระบุ IP ต้นทางจริง
-                      โดยอัตโนมัติ
+User → CDN / Proxy / Load Balancer → [ Ant2Cloud Box ] → Website
+                                            ↑
+                               วิเคราะห์และระบุ IP ต้นทางจริง
+                               ได้เสมอ โดยอัตโนมัติ
 ```
 
-**ทำไมต้องทำแบบนี้:**
+**Ant2WAF วิเคราะห์และระบุ IP จริงของ user หรือ attacker ได้เสมอ ไม่ว่าจะผ่านกี่ชั้น** — ไม่ว่าจะมี CDN, reverse proxy, load balancer หรือ firewall คั่นอยู่กี่ตัว Ant2WAF ยังระบุ IP ต้นทางจริงได้ถูกต้อง
 
 - ✅ IP เครื่องไม่เปิดเผย — attacker ไม่รู้จะ DDoS ที่ไหน
-- ✅ Ant2WAF วิเคราะห์และระบุ IP จริงของ user ได้เสมอ ไม่ว่าจะผ่านกี่ชั้น
-- ✅ GeoIP lookup, IP Jail, และ Block ทำงานกับ **IP ต้นทางจริง** ไม่ใช่ IP ของ Cloudflare
-- ✅ ไม่ block Cloudflare CDN node โดยไม่ตั้งใจ
-
-Ant2WAF วิเคราะห์ต้นทาง traffic อัตโนมัติ — ไม่ต้องตั้งค่าเพิ่ม
+- ✅ GeoIP lookup ทำงานกับ **IP ต้นทางจริง** — ระบุประเทศถูกต้องแม้ผ่าน proxy
+- ✅ IP Jail จับ **attacker ตัวจริง** — ไม่ jail CDN node โดยไม่ตั้งใจ
+- ✅ Block / Unblock กระทำกับ IP ของผู้โจมตีจริง ไม่ใช่ intermediary
+- ✅ ทำงานอัตโนมัติ — ไม่ต้องตั้งค่าเพิ่ม
 
 ### GeoIP Country Filter — เสิร์ฟเฉพาะประเทศที่ต้องการ
 
