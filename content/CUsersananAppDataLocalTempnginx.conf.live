@@ -1,0 +1,147 @@
+load_module modules/ngx_http_modsecurity_module.so;
+load_module modules/ngx_http_geoip2_module.so;
+
+user nginx;
+worker_processes auto;
+worker_rlimit_nofile 8192;
+error_log /var/log/nginx/error.log warn;
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 2048;
+    use epoll;
+    multi_accept on;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    # ── GeoIP2 Country Database ──────────────────────────────────
+    # Uses default source = $remote_addr
+    # real_ip module already restores client IP from CF-Connecting-IP header
+    # Works for: CF→WAF (direct) and CF→FrontNginx→WAF (both restore $remote_addr)
+    geoip2 /data/geoip/GeoLite2-Country.mmdb {
+        $geoip2_data_country_code country iso_code;
+    }
+
+    # ── Logging ──────────────────────────────────────────────────
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent"';
+
+    log_format json_access escape=json
+        '{'
+        '"ts":"$time_iso8601",'
+        '"host":"$host",'
+        '"remote_addr":"$realip_remote_addr",'
+        '"client_ip":"$remote_addr",'
+        '"cf_connecting_ip":"$http_cf_connecting_ip",'
+        '"country":"$geoip2_data_country_code",'
+        '"method":"$request_method",'
+        '"uri":"$request_uri",'
+        '"status":$status,'
+        '"bytes":$body_bytes_sent,'
+        '"referer":"$http_referer",'
+        '"ua":"$http_user_agent",'
+        '"x_forwarded_for":"$http_x_forwarded_for",'
+        '"request_time":$request_time'
+        '}';
+
+    access_log /var/log/nginx/access.log json_access;
+
+    # ── Performance ──────────────────────────────────────────────
+    sendfile        on;
+    tcp_nopush      on;
+    tcp_nodelay     on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    server_tokens   off;
+    server_names_hash_bucket_size 128;
+    server_names_hash_max_size    1024;
+
+    # ── Compression ──────────────────────────────────────────────
+    gzip on;
+    gzip_vary on;
+    gzip_types text/plain text/css application/json application/javascript
+               text/xml application/xml text/javascript;
+
+    # ── Real IP: restore visitor IP behind Cloudflare / upstream proxy ──
+    # Priority: CF-Connecting-IP (always real visitor IP from Cloudflare)
+    # then X-Forwarded-For for other proxies.
+    # Trust list covers Cloudflare + private/Docker ranges.
+    real_ip_header    X-Real-IP;
+    real_ip_recursive on;
+    # ── Private / Docker networks ──
+    set_real_ip_from  127.0.0.1;
+    set_real_ip_from  10.0.0.0/8;
+    set_real_ip_from  172.16.0.0/12;
+    set_real_ip_from  192.168.0.0/16;
+    # ── Cloudflare IPv4 ranges (https://www.cloudflare.com/ips-v4) ──
+    set_real_ip_from  103.21.244.0/22;
+    set_real_ip_from  103.22.200.0/22;
+    set_real_ip_from  103.31.4.0/22;
+    set_real_ip_from  104.16.0.0/13;
+    set_real_ip_from  104.24.0.0/14;
+    set_real_ip_from  108.162.192.0/18;
+    set_real_ip_from  131.0.72.0/22;
+    set_real_ip_from  141.101.64.0/18;
+    set_real_ip_from  162.158.0.0/15;
+    set_real_ip_from  172.64.0.0/13;
+    set_real_ip_from  173.245.48.0/20;
+    set_real_ip_from  188.114.96.0/20;
+    set_real_ip_from  190.93.240.0/20;
+    set_real_ip_from  197.234.240.0/22;
+    set_real_ip_from  198.41.128.0/17;
+    # ── Cloudflare IPv6 ──
+    set_real_ip_from  2400:cb00::/32;
+    set_real_ip_from  2606:4700::/32;
+    set_real_ip_from  2803:f800::/32;
+    set_real_ip_from  2405:b500::/32;
+    set_real_ip_from  2405:8100::/32;
+    set_real_ip_from  2c0f:f248::/32;
+    set_real_ip_from  2a06:98c0::/29;
+
+    # ── Cloudflare scheme detection ─────────────────────────────
+    # CF-Visitor: {"scheme":"https"} → pass real scheme to upstream
+    # so NextAuth builds correct https:// callback URLs
+    map $http_cf_visitor $cf_forwarded_proto {
+        default                  $scheme;
+        "~*\"scheme\":\"https\""  https;
+        "~*\"scheme\":\"http\""   http;
+    }
+
+    # ── Proxy defaults ───────────────────────────────────────────
+    proxy_http_version  1.1;
+    proxy_set_header    Host              $host;
+    proxy_set_header    X-Real-IP         $remote_addr;
+    proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+    proxy_set_header    X-Forwarded-Proto $cf_forwarded_proto;
+    proxy_set_header    Upgrade           $http_upgrade;
+    proxy_set_header    Connection        "upgrade";
+    proxy_cache_bypass  $http_upgrade;
+    proxy_read_timeout  60s;
+    proxy_connect_timeout 10s;
+
+    # ── Security headers (applied globally) ──────────────────────
+    add_header X-Content-Type-Options   "nosniff"           always;
+    add_header X-Frame-Options          "SAMEORIGIN"        always;
+    add_header X-XSS-Protection         "1; mode=block"     always;
+    add_header Referrer-Policy          "no-referrer-when-downgrade" always;
+
+    # ── ModSecurity: OFF globally, enabled per virtual host ──────
+    modsecurity off;
+
+    # ── SSL defaults ─────────────────────────────────────────────
+    ssl_protocols         TLSv1.2 TLSv1.3;
+    ssl_ciphers           ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-CHACHA20-POLY1305;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache     shared:SSL:10m;
+    ssl_session_timeout   10m;
+    ssl_session_tickets   off;
+    ssl_stapling          on;
+    ssl_stapling_verify   on;
+
+    # ── Dynamic virtual hosts (managed by GUI) ───────────────────
+    include /etc/nginx/conf.d/*.conf;
+}

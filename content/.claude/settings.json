@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/@vscode-copilot/NGINX-GUI-Proxy+WAF-Mosec/**)",
+      "Bash(bash build-package.sh)",
+      "Bash(powershell -Command \"\\(Get-Content VERSION\\) -replace 'version=2.3.5','version=2.3.6' | Set-Content VERSION\")",
+      "Bash(tar -czf /tmp/ant2-proxy-2.3.6.tar.gz --exclude='.git' --exclude='node_modules' .)",
+      "Read(//tmp/**)",
+      "Bash(ssh anan@172.20.20.181 'sudo cp -r /tmp/ant2-2.3.6-src/api/src /opt/ant2-proxy/api/ && sudo cp -r /tmp/ant2-2.3.6-src/web/src /opt/ant2-proxy/web/ && sudo cp /tmp/ant2-2.3.6-src/VERSION /opt/ant2-proxy/ && echo \"files copied\"')",
+      "Bash(ssh anan@172.20.20.181 'echo \"9^Pharaoh\" | sudo -S cp -r /tmp/ant2-2.3.6-src/api/src /opt/ant2-proxy/api/ && echo \"9^Pharaoh\" | sudo -S cp -r /tmp/ant2-2.3.6-src/web/src /opt/ant2-proxy/web/ && echo \"9^Pharaoh\" | sudo -S cp /tmp/ant2-2.3.6-src/VERSION /opt/ant2-proxy/ && echo \"files copied\"')",
+      "Bash(ssh anan@172.20.20.181 'echo \"9^Pharaoh\" | sudo -S bash -c \"python3 -c \\\\\" *)",
+      "Bash(ssh anan@172.20.20.181 ' *)",
+      "Bash(grep -r \"SWIOTT\" \"D:\\\\@vscode-copilot\" --include=\"*.jsx\" --include=\"*.js\" --include=\"*.tsx\" -l 2>/dev/null | head -10)",
+      "Read(//d/@vscode-copilot/**)",
+      "Bash(grep -r \"SWIOTT\" /mnt/d --include=\"*.jsx\" --include=\"*.js\" -l 2>/dev/null | grep -v node_modules | head -10)",
+      "Read(//mnt/**)",
+      "Bash(xargs grep -l \"SWIOTT\")"
+    ],
+    "additionalDirectories": [
+      "D:\\@vscode-copilot\\NGINX-GUI-Proxy+WAF-Mosec\\web\\src\\pages"
+    ]
+  }
+}
