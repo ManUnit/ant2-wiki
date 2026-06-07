@@ -72,16 +72,16 @@ Ant2Cloud ทำงานร่วมกับ **Cloudflare** เพื่อค
 ```
 User ──→ Cloudflare CDN ──→ Ant2Cloud Box ──→ Website
                               │
-                    อ่าน CF-Connecting-IP header
-                    ได้ real user IP ทันที
+                    วิเคราะห์ต้นทาง traffic
+                    ระบุ IP ผู้ใช้จริงโดยอัตโนมัติ
 ```
 
 | ประโยชน์ | รายละเอียด |
 |----------|-----------|
 | **ซ่อน Origin IP** | IP เครื่อง Ant2Cloud ไม่เปิดเผยต่อ public — Cloudflare เป็น shield |
-| **Real IP Extraction** | อ่าน `CF-Connecting-IP` header → ได้ IP ต้นทางจริงของ user |
-| **GeoIP ถูกต้อง** | lookup ประเทศจาก real user IP ไม่ใช่ IP ของ Cloudflare node |
-| **IP Jail ถูกต้อง** | jail real user IP — ไม่ jail Cloudflare CDN โดยไม่ตั้งใจ |
+| **ระบุ IP ต้นทาง** | วิเคราะห์ต้นทางจริงของ traffic ได้แม้ผ่านหลายชั้น |
+| **GeoIP ถูกต้อง** | ตรวจสอบประเทศจาก IP ผู้ใช้จริง ไม่ใช่ IP ของ CDN node |
+| **IP Jail ถูกต้อง** | Jail ผู้โจมตีจริง — ไม่ Jail Cloudflare CDN โดยไม่ตั้งใจ |
 | **Block ถูกต้อง** | block/unblock กระทำกับ attacker จริง ไม่ใช่ intermediary |
 
 ไม่ว่า traffic จะมาจาก Cloudflare หรือตรง — Ant2WAF ระบุ IP ต้นทางจริงได้เสมอ โดยอัตโนมัติ

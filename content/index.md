@@ -79,25 +79,18 @@ Ant2Cloud มาพร้อม **Ant2 WAF** ที่พัฒนาโดย�
 ```
 User → Cloudflare CDN → [ Ant2Cloud Box ] → Website
          (IP เครื่องซ่อนอยู่)    ↑
-                           ดึง real user IP
-                           จาก CF-Connecting-IP header
+                      วิเคราะห์และระบุ IP ต้นทางจริง
+                      โดยอัตโนมัติ
 ```
 
 **ทำไมต้องทำแบบนี้:**
 
 - ✅ IP เครื่องไม่เปิดเผย — attacker ไม่รู้จะ DDoS ที่ไหน
-- ✅ Ant2WAF แยก IP จริงของ user ออกมาได้เสมอ
+- ✅ Ant2WAF วิเคราะห์และระบุ IP จริงของ user ได้เสมอ ไม่ว่าจะผ่านกี่ชั้น
 - ✅ GeoIP lookup, IP Jail, และ Block ทำงานกับ **IP ต้นทางจริง** ไม่ใช่ IP ของ Cloudflare
 - ✅ ไม่ block Cloudflare CDN node โดยไม่ตั้งใจ
 
-**2-Stage IP Detection:**
-
-| สถานการณ์ | IP ที่ใช้ |
-|-----------|----------|
-| Traffic ผ่าน Cloudflare | Real user IP (อัตโนมัติ) |
-| Traffic ตรง (non-CF) | TCP source IP |
-
-Ant2WAF ตรวจสอบอัตโนมัติ — ไม่ต้องตั้งค่าเพิ่ม
+Ant2WAF วิเคราะห์ต้นทาง traffic อัตโนมัติ — ไม่ต้องตั้งค่าเพิ่ม
 
 ### GeoIP Country Filter — เสิร์ฟเฉพาะประเทศที่ต้องการ
 
