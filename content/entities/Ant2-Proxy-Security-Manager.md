@@ -84,16 +84,7 @@ User ──→ Cloudflare CDN ──→ Ant2Cloud Box ──→ Website
 | **IP Jail ถูกต้อง** | jail real user IP — ไม่ jail Cloudflare CDN โดยไม่ตั้งใจ |
 | **Block ถูกต้อง** | block/unblock กระทำกับ attacker จริง ไม่ใช่ intermediary |
 
-**2-Stage IP Detection (อัตโนมัติ):**
-
-```nginx
-map $http_cf_connecting_ip $real_client_ip {
-    ""      $remote_addr;              # Direct traffic → TCP source
-    default $http_cf_connecting_ip;   # Via Cloudflare → real user IP
-}
-```
-
-ไม่ว่า traffic จะมาจาก Cloudflare หรือตรง — Ant2WAF ระบุ IP ต้นทางจริงได้เสมอ
+ไม่ว่า traffic จะมาจาก Cloudflare หรือตรง — Ant2WAF ระบุ IP ต้นทางจริงได้เสมอ โดยอัตโนมัติ
 
 ### GeoIP Country Filter — เปิด/ปิดประเทศได้ทันที
 
@@ -106,21 +97,11 @@ Ant2Cloud ให้เว็บไซต์คุณ **บริการเฉ�
 | **ตั้งค่าแบบ per-host** | แต่ละ domain มี GeoIP rule ของตัวเอง |
 | **ตั้งค่าแบบ global** | บล็อก/อนุญาตพร้อมกันทุก domain |
 
-**ฐานข้อมูลและความเร็ว:**
+**ความเร็วและความแม่นยำ:**
 
-- ใช้ **MaxMind GeoLite2** (ฟอร์แมต `.mmdb`) — มาตรฐานอุตสาหกรรมระดับโลก
-- NGINX อ่าน MMDB โดยตรงจาก **memory** — latency **< 1ms ต่อ request**
-- ผลลัพธ์ cache เพิ่มใน **Redis** — request ซ้ำไม่ต้อง lookup ใหม่
-- รองรับ **Cloudflare CDN** ด้วย 2-stage map (ตรวจ `CF-Connecting-IP` header)
-
-```
-Request มาถึง
-  ↓ NGINX ตรวจ IP จาก Cloudflare header หรือ TCP source
-  ↓ Lookup จาก GeoLite2.mmdb (< 1ms, in-memory)
-  ↓ เทียบกับ allow/block list
-  ↓ ถ้าบล็อก → HTTP 423 + custom block page
-  ↓ ถ้าผ่าน → ต่อไปยัง WAF rules + IP Jail
-```
+- GeoIP lookup เร็วมาก — **latency < 1ms ต่อ request** ไม่กระทบ performance
+- มีระบบ cache ชั้นที่สอง — request ซ้ำตอบสนองได้เร็วขึ้นอีก
+- รองรับ **Cloudflare CDN** — แยก IP ต้นทาง user ออกจาก CDN node ได้ถูกต้อง
 
 > ตัวอย่างการใช้งาน: ร้านค้าออนไลน์ไทย → Allow TH เท่านั้น ตัดการโจมตีจากต่างประเทศได้ 90%+ ก่อนถึง WAF
 

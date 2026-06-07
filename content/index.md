@@ -109,9 +109,9 @@ Ant2Cloud รองรับการตั้งค่า **Allow List** หร
 ```
 
 - ระบุได้ทั้ง **รายโฮสต์** (per-host) และ **global** ทุก domain พร้อมกัน
-- ใช้ฐานข้อมูล **MaxMind GeoLite2** (ฟอร์แมต `.mmdb`) อ่านตรงจาก memory — **latency < 1ms ต่อ request**
-- ผลการค้นหา cache ใน **Redis** — request ซ้ำหาไม่ต้อง lookup อีก
-- รองรับ **Cloudflare CDN** ด้วย 2-stage IP map (ไม่ต้องกังวล CF header)
+- GeoIP lookup เร็วมาก — **latency < 1ms ต่อ request** ไม่ส่งผลต่อประสิทธิภาพ
+- มีระบบ cache — request ซ้ำตอบสนองได้เร็วขึ้นอีก
+- รองรับ **Cloudflare CDN** — แยก IP ต้นทาง user จาก CDN node ได้ถูกต้อง
 - ใช้ร่วมกับ **IP Jail** ได้ทันที — บล็อกประเทศก่อน จับ attacker ที่เหลือ
 
 ### IP Jail — นวัตกรรมที่แตกต่าง
