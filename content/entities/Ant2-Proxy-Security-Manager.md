@@ -65,6 +65,36 @@ Domain ของคุณชี้มาถูกต้องแล้ว ✅
 | ใช้ domain ของตัวเอง | ❌ IP เปลี่ยนได้ | ✅ ใช้ได้ตลอด |
 | downtime เมื่อ IP เปลี่ยน | นาที–ชั่วโมง | **< 15 วินาที** |
 
+### Cloudflare Integration — ซ่อน IP เครื่อง + ดึง Real User IP
+
+Ant2Cloud ทำงานร่วมกับ **Cloudflare** เพื่อความปลอดภัยสูงสุด:
+
+```
+User ──→ Cloudflare CDN ──→ Ant2Cloud Box ──→ Website
+                              │
+                    อ่าน CF-Connecting-IP header
+                    ได้ real user IP ทันที
+```
+
+| ประโยชน์ | รายละเอียด |
+|----------|-----------|
+| **ซ่อน Origin IP** | IP เครื่อง Ant2Cloud ไม่เปิดเผยต่อ public — Cloudflare เป็น shield |
+| **Real IP Extraction** | อ่าน `CF-Connecting-IP` header → ได้ IP ต้นทางจริงของ user |
+| **GeoIP ถูกต้อง** | lookup ประเทศจาก real user IP ไม่ใช่ IP ของ Cloudflare node |
+| **IP Jail ถูกต้อง** | jail real user IP — ไม่ jail Cloudflare CDN โดยไม่ตั้งใจ |
+| **Block ถูกต้อง** | block/unblock กระทำกับ attacker จริง ไม่ใช่ intermediary |
+
+**2-Stage IP Detection (อัตโนมัติ):**
+
+```nginx
+map $http_cf_connecting_ip $real_client_ip {
+    ""      $remote_addr;              # Direct traffic → TCP source
+    default $http_cf_connecting_ip;   # Via Cloudflare → real user IP
+}
+```
+
+ไม่ว่า traffic จะมาจาก Cloudflare หรือตรง — Ant2WAF ระบุ IP ต้นทางจริงได้เสมอ
+
 ### GeoIP Country Filter — เปิด/ปิดประเทศได้ทันที
 
 Ant2Cloud ให้เว็บไซต์คุณ **บริการเฉพาะประเทศที่ต้องการ** ด้วย GeoIP ที่ทำงานเร็วมาก:

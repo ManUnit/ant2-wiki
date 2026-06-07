@@ -74,6 +74,31 @@ Ant2Cloud มาพร้อม **Ant2 WAF** ที่พัฒนาโดย�
 ชั้น 3 → WAF Rules      OWASP CRS 4.26.0 — SQLi, XSS, RCE, LFI
 ```
 
+### Cloudflare Shield + Real IP Extraction — ซ่อน IP เครื่อง แต่ block User ได้ถูกต้อง
+
+```
+User → Cloudflare CDN → [ Ant2Cloud Box ] → Website
+         (IP เครื่องซ่อนอยู่)    ↑
+                           ดึง real user IP
+                           จาก CF-Connecting-IP header
+```
+
+**ทำไมต้องทำแบบนี้:**
+
+- ✅ IP เครื่องไม่เปิดเผย — attacker ไม่รู้จะ DDoS ที่ไหน
+- ✅ Ant2WAF อ่าน `CF-Connecting-IP` header → ได้ IP จริงของ user
+- ✅ GeoIP lookup, IP Jail, และ Block ทำงานกับ **IP ต้นทางจริง** ไม่ใช่ IP ของ Cloudflare
+- ✅ rate limiting / IP Jail ไม่ jail Cloudflare CDN node โดยไม่ตั้งใจ
+
+**2-Stage IP Detection:**
+
+| สถานการณ์ | IP ที่ใช้ |
+|-----------|----------|
+| Traffic ผ่าน Cloudflare | `CF-Connecting-IP` header (real user IP) |
+| Traffic ตรง (non-CF) | `$remote_addr` (TCP source IP) |
+
+Ant2WAF ตรวจสอบอัตโนมัติ — ไม่ต้องตั้งค่าเพิ่ม
+
 ### GeoIP Country Filter — เสิร์ฟเฉพาะประเทศที่ต้องการ
 
 Ant2Cloud รองรับการตั้งค่า **Allow List** หรือ **Block List** ระดับประเทศ:
@@ -104,6 +129,7 @@ WAF ทั่วโลก block จาก **rate** (จำนวน request ต�
 | ราคา | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | ~$20,000+/ปี | $10,000–$50,000 |
 | GeoIP Block | ✅ | ✅ | ✅ | ✅ |
 | Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ behavioral | ✅ |
+| Cloudflare Real IP | ✅ **CF-Connecting-IP** | N/A (IS CF) | ✅ | ✅ |
 | Data Sovereignty | ✅ **100% on-premise** | ❌ ผ่าน CF | ❌ ผ่าน Imperva | ✅ |
 | VOIP Server | ✅ **built-in** | ❌ | ❌ | ❌ |
 | ONU/ONT | ✅ **built-in** | ❌ | ❌ | ❌ |
