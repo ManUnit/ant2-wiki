@@ -60,7 +60,7 @@ Ant2 (event-based):       10 WAF violations (SQLi/XSS/RCE) → block
 
 ---
 
-## Huawei Cloud WAF — ปัญหา Proxy กับ SSE (Server-Sent Events)
+## Huawei Cloud WAF — ปัญหา Proxy กับ SSE (Server-Sent Events) *(issue detected Mar 2026)*
 
 **SSE (Server-Sent Events)** คือเทคโนโลยีที่ให้ server ส่งข้อมูลไปยัง client แบบ real-time ต่อเนื่องผ่าน connection เดียว — ใช้กันแพร่หลายใน AI chat, live dashboard, notification system, และ log streaming
 
