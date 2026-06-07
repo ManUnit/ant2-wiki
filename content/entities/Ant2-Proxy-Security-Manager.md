@@ -4,24 +4,24 @@ type: entity
 tags: [ant2, geoip, web-service]
 sources: []
 created: 2026-05-05
-updated: 2026-05-12
+updated: 2026-06-07
 ---
 
 # Ant2 Proxy Security Manager
 
-**ANT2 Proxy Server** — ระบบ WAF และ reverse-proxy เต็มรูปแบบพร้อม GUI บริหารจัดการ รองรับ GeoIP country blocking, IP Jail, rate limiting ต่อ domain พัฒนาโดยทีมไทย 🇹🇭 มีจำหน่ายในรูปแบบ **commercial hardware appliance**.
+**ANT2 Proxy Server** — a full-featured WAF and reverse-proxy system with GUI management. Supports GeoIP country blocking, IP Jail, and per-domain rate limiting. Developed by a Thai team 🇹🇭 and available as a **commercial hardware appliance**.
 
 ## Commercial Product — Ant2Cloud Box Appliance
 
-> **"เอา Cloud ยกกลับมาไว้ที่บ้าน"** — Ant2Cloud คือ innovation ที่ไม่ต้องพึ่งพา SaaS หรือ Global Cloud รายใหญ่ ใช้แค่ FTTX internet บ้านหรือ office ก็สร้าง Private Cloud ได้เลย
+> **"Bring the Cloud Home"** — Ant2Cloud is an innovation that doesn't require SaaS or major global cloud providers. With just FTTX home or office internet, you can build your own Private Cloud.
 
 | Attribute | Detail |
 |-----------|--------|
 | Product name | **Ant2Cloud** |
 | Website | **https://ant2cloud.com** |
-| Form factor | Hardware box appliance — router style, บางเบา |
+| Form factor | Hardware box appliance — router style, slim & lightweight |
 | Price | **฿250,000 THB** |
-| Origin | Thailand 🇹🇭 — พัฒนาและผลิตในประเทศไทย |
+| Origin | Thailand 🇹🇭 — developed and manufactured in Thailand |
 
 ### Hardware Specifications
 
@@ -30,81 +30,81 @@ updated: 2026-05-12
 | CPU | 12-core / 24 vCPU |
 | RAM | 64 GB |
 | Storage | 2 TB HDD |
-| VM Capacity | รองรับได้ 20 VMs |
-| Form Factor | Router style — บางเบา ติดตั้งง่าย |
+| VM Capacity | Supports up to 20 VMs |
+| Form Factor | Router style — slim, easy to install |
 
 ### Built-in Services (All-in-One)
 
 | Feature | Detail |
 |---------|--------|
 | **Ant2 WAF** | ANT2 Proxy Server — GeoIP country filter, IP Jail, rate limiting |
-| **Smart Router** | Built-in smart router ในตัว |
-| **ONU / ONT** | Built-in — เสียบสาย GPON fiber ได้ตรงเลย ไม่ต้องซื้อ ONU แยก |
-| **IP Phone Server** | VOIP server ในตัว — รองรับ IP Phone ทั้ง office |
-| **VLAN Support** | แบ่ง VLAN จาก ISP (GPON) เชื่อมเข้า VOIP server ได้ทันที |
-| **DDNS** | Dynamic DNS built-in — ตรวจจับ IP เปลี่ยน → อัปเดต DNS ภายใน **10–15 วินาที** |
-| **Custom Domain** | ใช้ domain ของตัวเองได้เลย ไม่ต้องซื้อ static IP จาก ISP |
-| **Private Cloud** | รัน 20 VM บน FTTX internet บ้าน/office |
+| **Smart Router** | Built-in smart router |
+| **ONU / ONT** | Built-in — plug GPON fiber directly, no separate ONU needed |
+| **IP Phone Server** | Built-in VOIP server — supports IP Phones across the office |
+| **VLAN Support** | Split VLAN from ISP (GPON) and connect directly to VOIP server |
+| **DDNS** | Dynamic DNS built-in — detects IP change → updates DNS within **10–15 seconds** |
+| **Custom Domain** | Use your own domain without buying a static IP from ISP |
+| **Private Cloud** | Run 20 VMs on FTTX home/office internet |
 
-### DDNS — Dynamic DNS (ไม่ต้องซื้อ Static IP)
+### DDNS — Dynamic DNS (No Static IP Required)
 
-ISP บ้านทั่วไปให้ IP แบบ dynamic (เปลี่ยนได้ตลอด) — Ant2Cloud แก้ปัญหานี้ด้วย DDNS built-in:
+Home ISPs typically assign dynamic IPs (can change at any time) — Ant2Cloud solves this with built-in DDNS:
 
 ```
-IP เปลี่ยน (ISP assign ใหม่)
-  ↓ Ant2Cloud ตรวจจับได้ทันที
-  ↓ อัปเดต DNS record อัตโนมัติ
-  ↓ ภายใน 10–15 วินาที
-Domain ของคุณชี้มาถูกต้องแล้ว ✅
+IP changes (ISP assigns new IP)
+  ↓ Ant2Cloud detects it immediately
+  ↓ Updates DNS record automatically
+  ↓ Within 10–15 seconds
+Your domain is pointing correctly again ✅
 ```
 
-| | ไม่มี DDNS | Ant2Cloud DDNS |
+| | Without DDNS | Ant2Cloud DDNS |
 |--|-----------|----------------|
-| IP เปลี่ยน | website ล่ม | **อัปเดตอัตโนมัติ 10–15s** |
-| ต้องการ Static IP | ✅ ต้องซื้อ (~฿500/เดือน) | ❌ ไม่ต้อง |
-| ใช้ domain ของตัวเอง | ❌ IP เปลี่ยนได้ | ✅ ใช้ได้ตลอด |
-| downtime เมื่อ IP เปลี่ยน | นาที–ชั่วโมง | **< 15 วินาที** |
+| IP changes | website goes down | **Auto-update in 10–15s** |
+| Need Static IP | ✅ must purchase (~฿500/mo) | ❌ not needed |
+| Use own domain | ❌ IP can change | ✅ works all the time |
+| Downtime when IP changes | minutes to hours | **< 15 seconds** |
 
-### Real IP Detection — ระบุ IP จริงได้เสมอ ไม่ว่าจะผ่านกี่ชั้น
+### Real IP Detection — Always Identifies True IP Through Any Number of Layers
 
-**Ant2WAF วิเคราะห์และระบุ IP จริงของ user หรือ attacker ได้เสมอ ไม่ว่าจะผ่านกี่ชั้น** — CDN, reverse proxy, load balancer, หรือ firewall คั่นอยู่กี่ตัวก็ตาม
+**Ant2WAF always identifies the true IP of users or attackers, regardless of how many layers they go through** — CDN, reverse proxy, load balancer, or firewall — however many are in between.
 
 ```
 User ──→ CDN / Proxy / Load Balancer ──→ Ant2Cloud Box ──→ Website
                                                │
-                                  วิเคราะห์และระบุ IP ต้นทางจริง
-                                  ได้เสมอ โดยอัตโนมัติ
+                                  Analyzes and identifies true source IP
+                                  automatically — always
 ```
 
-| ประโยชน์ | รายละเอียด |
-|----------|-----------|
-| **ซ่อน Origin IP** | IP เครื่อง Ant2Cloud ไม่เปิดเผยต่อ public — CDN เป็น shield |
-| **ระบุ IP ต้นทางจริง** | วิเคราะห์ได้แม้ traffic ผ่านหลาย proxy layer |
-| **GeoIP ถูกต้อง** | ตรวจสอบประเทศจาก IP ผู้ใช้จริง ไม่ใช่ IP ของ CDN node |
-| **IP Jail ถูกต้อง** | Jail ผู้โจมตีจริง — ไม่ Jail CDN โดยไม่ตั้งใจ |
-| **Block ถูกต้อง** | block/unblock กระทำกับ attacker จริง ไม่ใช่ intermediary |
-| **ทำงานอัตโนมัติ** | ไม่ต้องตั้งค่าเพิ่ม รองรับได้ทุก CDN และ proxy |
+| Benefit | Detail |
+|---------|--------|
+| **Hide Origin IP** | Ant2Cloud's IP is not exposed to the public — CDN acts as shield |
+| **Identify True Source IP** | Detects correctly even through multiple proxy layers |
+| **Accurate GeoIP** | Checks country from real user IP, not CDN node IP |
+| **Accurate IP Jail** | Jails real attackers — doesn't accidentally jail CDN |
+| **Correct Block** | Block/unblock targets actual attacker, not intermediary |
+| **Automatic** | No extra configuration — supports any CDN and proxy |
 
-### GeoIP Country Filter — เปิด/ปิดประเทศได้ทันที
+### GeoIP Country Filter — Enable/Block Countries Instantly
 
-Ant2Cloud ให้เว็บไซต์คุณ **บริการเฉพาะประเทศที่ต้องการ** ด้วย GeoIP ที่ทำงานเร็วมาก:
+Ant2Cloud lets your website **serve only the countries you want**, with extremely fast GeoIP:
 
-| ความสามารถ | รายละเอียด |
-|------------|-----------|
-| **Allow List Mode** | อนุญาตเฉพาะประเทศที่เลือก → บล็อกทุกประเทศอื่นอัตโนมัติ |
-| **Block List Mode** | บล็อกประเทศที่ต้องการ → อนุญาตทุกประเทศที่เหลือ |
-| **ตั้งค่าแบบ per-host** | แต่ละ domain มี GeoIP rule ของตัวเอง |
-| **ตั้งค่าแบบ global** | บล็อก/อนุญาตพร้อมกันทุก domain |
+| Capability | Detail |
+|------------|--------|
+| **Allow List Mode** | Allow only selected countries → auto-block all others |
+| **Block List Mode** | Block selected countries → allow all others |
+| **Per-host config** | Each domain has its own GeoIP rule |
+| **Global config** | Block/allow across all domains at once |
 
-**ความเร็วและความแม่นยำ:**
+**Speed and accuracy:**
 
-- GeoIP lookup เร็วมาก — **latency < 1ms ต่อ request** ไม่กระทบ performance
-- มีระบบ cache ชั้นที่สอง — request ซ้ำตอบสนองได้เร็วขึ้นอีก
-- รองรับ **Cloudflare CDN** — แยก IP ต้นทาง user ออกจาก CDN node ได้ถูกต้อง
+- GeoIP lookup is extremely fast — **latency < 1ms per request**, no performance impact
+- Second-layer cache system — repeated requests respond even faster
+- Supports **Cloudflare CDN** — correctly separates user source IP from CDN node
 
-> ตัวอย่างการใช้งาน: ร้านค้าออนไลน์ไทย → Allow TH เท่านั้น ตัดการโจมตีจากต่างประเทศได้ 90%+ ก่อนถึง WAF
+> Example: Thai online store → Allow TH only → cuts 90%+ of foreign attacks before they reach the WAF
 
-### แนวคิด: Private Cloud ที่บ้านและ Office
+### Concept: Private Cloud at Home and Office
 
 ```
 GPON Fiber (ISP)
@@ -116,75 +116,70 @@ GPON Fiber (ISP)
         └── Private Cloud Services
 ```
 
-ไม่ต้องพึ่ง:
+No dependency on:
 - ❌ AWS / Azure / GCP (SaaS global cloud)
-- ❌ Cloudflare (traffic ไม่ผ่าน third party)
-- ❌ ONU/ONT แยก
-- ❌ VOIP server แยก
-- ❌ Router แยก
+- ❌ Cloudflare (traffic stays off third-party)
+- ❌ Separate ONU/ONT
+- ❌ Separate VOIP server
+- ❌ Separate Router
 
-ทุกอย่างอยู่ในกล่องเดียว ราคา **฿250,000 THB**
+Everything in one box at **฿250,000 THB**
 
-## ความสามารถหลัก
+## Key Capabilities
 
-- บริหาร Proxy Host หลาย domain ผ่าน GUI — ตั้งค่า HTTPS, HTTP/2, WebSocket, HSTS ได้ทันที
-- WAF พร้อม dashboard วิเคราะห์การโจมตี real-time (XSS, SQLi, RCE, LFI, RFI)
-- GeoIP country filter — Allow List / Block List ระดับประเทศ ต่อ domain หรือ global
-- IP Jail อัตโนมัติ — จับ attacker ภายใน ~20 วินาที ไม่ว่าจะโจมตีเร็วหรือช้า
-- Rate Limiting per domain — ป้องกัน brute force และ flood attack
-- SSL อัตโนมัติ (Let's Encrypt) + อัปโหลด certificate เอง + แจ้งเตือนหมดอายุ
-- Custom error page ออกแบบเองได้ทุก HTTP status code
-- Dashboard Monitor วิเคราะห์ traffic, attack trend, และสถานะระบบ real-time
-- **Swarm Attack Protection** — ป้องกันการโจมตีแบบกระจาย หลาย IP พร้อมกัน
-- **Attack Domain Identification** — ระบุได้ทันทีว่า domain ไหนกำลังถูกโจมตีอยู่
+- Manage multiple domain proxy hosts via GUI — configure HTTPS, HTTP/2, WebSocket, HSTS instantly
+- WAF with real-time attack analytics dashboard (XSS, SQLi, RCE, LFI, RFI)
+- GeoIP country filter — Allow List / Block List at country level, per domain or global
+- Auto IP Jail — captures attacker within ~20 seconds, regardless of attack speed
+- Rate Limiting per domain — protection against brute force and flood attacks
+- Automatic SSL (Let's Encrypt) + manual certificate upload + expiry alerts
+- Custom error pages for every HTTP status code
+- Dashboard Monitor for real-time traffic, attack trends, and system status
+- **Swarm Attack Protection** — defends against distributed attacks from many simultaneous IPs
+- **Attack Domain Identification** — instantly identifies which domain is under active attack
 
-## Swarm Attack Protection — รับมือการโจมตีแบบกองทัพ
+## Swarm Attack Protection — Defense Against Coordinated Attacks
 
-**Swarm Attack** คือการโจมตีแบบกระจายจากหลาย IP พร้อมกัน — แต่ละ IP ส่ง request ช้าพอที่จะไม่ติด rate limit แต่รวมกันแล้วทำให้ระบบล่ม WAF ทั่วไปที่ดูแค่ rate ต่อ IP จะไม่เห็นว่าเกิดอะไรขึ้น
+**Swarm Attack** is a distributed attack from many IPs simultaneously — each IP sends requests slowly enough to avoid rate limits, but collectively overwhelms the system. Standard WAFs that only look at per-IP rate will miss this entirely.
 
 ```
-IP-A  → 5 requests/min  ← ไม่ติด rate limit
-IP-B  → 5 requests/min  ← ไม่ติด rate limit
-IP-C  → 5 requests/min  ← ไม่ติด rate limit
+IP-A  → 5 requests/min  ← below rate limit
+IP-B  → 5 requests/min  ← below rate limit
+IP-C  → 5 requests/min  ← below rate limit
 ...
 IP-500 → 5 requests/min
 ─────────────────────────
-รวม: 2,500 requests/min → server ล่ม
+Total: 2,500 requests/min → server down
 ```
 
-**Ant2Cloud รับมือ Swarm Attack ด้วย 3 กลไกพร้อมกัน:**
+**Ant2Cloud defends against Swarm Attacks with 3 simultaneous mechanisms:**
 
-| กลไก | วิธีทำงาน |
-|------|----------|
-| **GeoIP Block** | ตัด IP ทั้ง subnet/ประเทศที่เป็นแหล่งของ swarm ได้ทันที |
-| **WAF Event-based Jail** | แต่ละ IP ใน swarm ที่ส่ง payload อันตราย → ถูก jail อัตโนมัติเป็นรายตัว |
-| **Rate Limiting Global** | จำกัด rate ระดับ global ต่อ domain — ป้องกัน flood แม้ IP แต่ละตัวดูเบา |
+| Mechanism | How It Works |
+|-----------|--------------|
+| **GeoIP Block** | Instantly cut entire subnet/country that is the swarm source |
+| **WAF Event-based Jail** | Each IP in the swarm sending dangerous payload → auto-jailed individually |
+| **Global Rate Limiting** | Limit rate at global domain level — prevents flood even when individual IPs look light |
 
-> ต่างจาก WAF ทั่วไป — Ant2 จับ attacker แต่ละตัวใน swarm ได้จาก **พฤติกรรม** (WAF violations) ไม่ใช่แค่ rate
+> Unlike ordinary WAFs — Ant2 catches each individual attacker in the swarm by **behavior** (WAF violations), not just rate
 
-## Attack Domain Identification — รู้ทันทีว่า domain ไหนโดนโจมตี
+## Attack Domain Identification — Know Instantly Which Domain Is Under Attack
 
-เมื่อถูกโจมตี สิ่งที่ต้องรู้เร็วที่สุดคือ: **โดนที่ domain ไหน?**
+When under attack, the most critical question is: **which domain is being targeted?**
 
-Ant2Cloud ระบุ domain เป้าหมายได้ทันทีแบบ real-time:
+Ant2Cloud identifies the target domain in real-time instantly:
 
-| ข้อมูล | รายละเอียด |
-|--------|-----------|
-| **Attack per domain** | Dashboard แสดงจำนวน WAF violations แยกต่อ domain |
-| **Jailed IP → Domain** | ทุก IP ที่ถูก Jail บันทึกไว้ว่ากำลังโจมตี domain ใด |
-| **Attack type per domain** | แยกประเภทการโจมตี (SQLi, XSS, RCE ฯลฯ) ต่อ domain |
-| **Timeline** | เห็น pattern การโจมตีว่าเริ่มที่เมื่อไหร่ domain ไหนโดนก่อน |
+| Data | Detail |
+|------|--------|
+| **Attack per domain** | Dashboard shows WAF violation count separately per domain |
+| **Jailed IP → Domain** | Every jailed IP is recorded with which domain it was attacking |
+| **Attack type per domain** | Breaks down attack type (SQLi, XSS, RCE, etc.) per domain |
+| **Timeline** | See attack pattern — which domain was hit first and when |
 
-**ประโยชน์ในการรับมือ:**
-- รู้ว่าต้อง isolate หรือ lockdown domain ไหนก่อน
-- เห็นว่า swarm กำลัง rotate เป้าหมายระหว่าง domain หรือไม่
-- ตัดสินใจ apply GeoIP block หรือ custom rule ได้ตรงจุด
+**Response benefits:**
+- Know which domain to isolate or lock down first
+- See if the swarm is rotating targets between domains
+- Apply GeoIP block or custom rules with surgical precision
 
 ## See Also
 
-- [[2026-06-07-ant2-vs-world-waf-comparison]]
-- [[2026-05-06-ant2-v2361-release-notes]]
-- [[2026-05-07-ant2-v242-v243-session]]
-- [[2026-05-09-ant2-v248-v2411-session]]
-- [[2026-05-09-ant2-v2412-v2415-session]]
-- [[2026-05-13-ant2-v2426-amnesty-session]]
+- [[analyses/2026-06-07-ant2-vs-world-waf-comparison|Ant2 vs World WAF Comparison]]

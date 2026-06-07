@@ -26,6 +26,7 @@ export const defaultContentPageLayout: PageLayout = {
   ],
   left: [
     Component.PageTitle(),
+    Component.LanguageSwitcher(),
     Component.MobileOnly(Component.Spacer()),
     Component.Flex({
       components: [
@@ -51,6 +52,7 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
   left: [
     Component.PageTitle(),
+    Component.LanguageSwitcher(),
     Component.MobileOnly(Component.Spacer()),
     Component.Flex({
       components: [

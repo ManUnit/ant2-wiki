@@ -8,120 +8,120 @@ updated: 2026-06-07
 
 # Ant2 vs World WAF — Feature & Performance Comparison
 
-> **Ant2Cloud** คือ WAF และ Private Cloud appliance พัฒนาโดยทีมไทย 🇹🇭 — เปรียบเทียบกับ WAF ชั้นนำทั่วโลก
+> **Ant2Cloud** is a WAF and Private Cloud appliance developed by Thai engineers 🇹🇭 — compared here against the world's leading WAF solutions
 
 ---
 
-## 3 ชั้นป้องกันที่ครบในระบบเดียว
+## 3-Layer Defense in One Integrated System
 
-ทั่วโลกมี WAF เพียงไม่กี่รายที่รวม GeoIP + IP Block + IP Jail ในระบบเดียวแบบ integrated — Ant2Cloud เป็นหนึ่งในนั้น
+Only a handful of WAF solutions worldwide combine GeoIP + IP Block + IP Jail in a single integrated system — Ant2Cloud is one of them.
 
 | Solution | GeoIP Block | Static IP Block | Auto-Jail | Cost |
 |----------|:-----------:|:---------------:|:---------:|------|
-| **Ant2Cloud (Thailand 🇹🇭)** | ✅ | ✅ | ✅ WAF-event-based | **฿250,000 (ครั้งเดียว)** |
-| Cloudflare WAF | ✅ | ✅ | ✅ rate-based | Free → Enterprise/ปี |
+| **Ant2Cloud (Thailand 🇹🇭)** | ✅ | ✅ | ✅ WAF-event-based | **฿250,000 (one-time)** |
+| Cloudflare WAF | ✅ | ✅ | ✅ rate-based | Free → Enterprise/yr |
 | AWS WAF + Shield | ✅ | ✅ | ✅ rate-based | Pay-per-request |
 | Huawei Cloud WAF | ✅ | ✅ | ✅ rate-based | Pay-per-use |
 | Akamai App & API Protector | ✅ | ✅ | ✅ behavioral | Enterprise |
-| Imperva WAF | ✅ | ✅ | ✅ behavioral | Enterprise/ปี |
+| Imperva WAF | ✅ | ✅ | ✅ behavioral | Enterprise/yr |
 | Fastly WAF (Signal Sciences) | ✅ | ✅ | ✅ threshold-based | Mid-Enterprise |
-| Fail2Ban + nginx + CRS | ✅ (manual) | ✅ | ✅ log-based | Free (ต้องตั้งเอง) |
+| Fail2Ban + nginx + CRS | ✅ (manual) | ✅ | ✅ log-based | Free (self-managed) |
 | CrowdSec + Bouncer | ✅ | ✅ | ✅ scenario-based | Free / Paid |
 | FortiWeb / F5 BIG-IP | ✅ | ✅ | ✅ IP Intelligence | Enterprise |
-| WAF Engine เปล่า (ไม่มี GUI) | ❌ | ❌ | ❌ | Free |
+| Bare WAF Engine (no GUI) | ❌ | ❌ | ❌ | Free |
 
 ---
 
-## IP Jail ของ Ant2 ต่างจากชาวบ้านอย่างไร
+## How Ant2 IP Jail Differs from the Rest
 
-WAF ทั่วโลก block จาก **จำนวน request ต่อนาที (rate)**
-Ant2 block จาก **จำนวน WAF rule violation** — ต่างกันมาก:
+Most WAFs worldwide block based on **requests per minute (rate)**
+Ant2 blocks based on **number of WAF rule violations** — a fundamentally different approach:
 
 ```
-Rate-based (WAF ทั่วไป): 100 requests ใน 60s → block
+Rate-based (typical WAF): 100 requests in 60s → block
 Ant2 (event-based):       10 WAF violations (SQLi/XSS/RCE) → block
 ```
 
-**ผลที่ได้:** attacker ที่ส่ง payload อันตราย 1 ครั้งทุก 30 วินาที จะไม่ถูก rate-based WAF จับ แต่ Ant2 จับได้หลัง 10 violations ไม่ว่าจะช้าแค่ไหน
+**The result:** An attacker sending dangerous payload once every 30 seconds won't be caught by rate-based WAFs — but Ant2 catches them after 10 violations, regardless of speed.
 
-**เวลาตั้งแต่โจมตีครั้งแรกถึงถูก block: ~20 วินาที**
+**Time from first attack to block: ~20 seconds**
 
 ---
 
-## ความเร็ว
+## Speed Comparison
 
-| ความสามารถ | Ant2 | Cloudflare | AWS WAF | Huawei Cloud WAF |
+| Capability | Ant2 | Cloudflare | AWS WAF | Huawei Cloud WAF |
 |-----------|------|------------|---------|-----------------|
-| ตรวจจับ config เปลี่ยน | ทันที (kernel-level) | Managed | API push (~1-5s) | Managed (~seconds) |
-| ทดสอบก่อน apply | ✅ | N/A | N/A | N/A |
-| Apply โดยไม่ drop connection | ✅ Zero downtime | ✅ | ✅ | ✅ |
+| Config change detection | Instant (kernel-level) | Managed | API push (~1-5s) | Managed (~seconds) |
+| Test before apply | ✅ | N/A | N/A | N/A |
+| Apply without dropping connections | ✅ Zero downtime | ✅ | ✅ | ✅ |
 | GeoIP lookup | < 1ms (in-memory) | CDN-edge | CDN-edge | CDN-edge |
-| Streaming / SSE รองรับ | ✅ ไม่มีปัญหา | ⚠️ ขึ้นอยู่กับ config | ⚠️ | ❌ มีปัญหา |
+| Streaming / SSE support | ✅ No issues | ⚠️ Config-dependent | ⚠️ | ❌ Has issues |
 
 ---
 
-## Huawei Cloud WAF — ปัญหา Proxy กับ SSE (Server-Sent Events) *(issue detected Mar 2026)*
+## Huawei Cloud WAF — SSE (Server-Sent Events) Proxy Issue *(issue detected Mar 2026)*
 
-**SSE (Server-Sent Events)** คือเทคโนโลยีที่ให้ server ส่งข้อมูลไปยัง client แบบ real-time ต่อเนื่องผ่าน connection เดียว — ใช้กันแพร่หลายใน AI chat, live dashboard, notification system, และ log streaming
+**SSE (Server-Sent Events)** is a technology that lets servers push data to clients in real-time continuously through a single connection — widely used in AI chat, live dashboards, notification systems, and log streaming.
 
-### ปัญหาที่พบกับ Huawei Cloud WAF
+### Issues Found with Huawei Cloud WAF
 
-Huawei Cloud WAF ทำงานเป็น **reverse proxy ที่ตั้งอยู่หน้า server** — ทุก request และ response ต้องผ่าน WAF ก่อน
+Huawei Cloud WAF operates as a **reverse proxy in front of the server** — every request and response must pass through the WAF first.
 
-**ปัญหาหลัก: Response Buffering**
+**Core Problem: Response Buffering**
 
 ```
-Server ส่ง SSE stream → Huawei WAF รับและ buffer ทั้งหมด → ส่งต่อให้ client
+Server sends SSE stream → Huawei WAF receives and buffers everything → forwards to client
                                         ↑
-                              ❌ SSE ไม่ใช่ response เดียว
-                              มันคือ stream ที่ไม่มีจุดสิ้นสุด
-                              WAF รอ buffer เสร็จ → ไม่มีวันเสร็จ
+                              ❌ SSE is not a single response
+                              It's an endless stream
+                              WAF waits for buffer to complete → it never completes
 ```
 
-| ปัญหา | อาการ |
-|-------|-------|
-| **Response buffering** | WAF เก็บ response ก่อน forward — SSE events ไม่ถึง client real-time |
-| **Connection timeout** | Huawei WAF ตัด connection ที่ idle หรือ long-lived เกิน threshold |
-| **Chunked transfer** | WAF reassemble chunked response ก่อน forward — ทำลาย streaming nature |
-| **Content inspection delay** | WAF ต้องตรวจ content ก่อนส่ง — เพิ่ม latency ทุก event |
-| **Keep-alive interference** | WAF จัดการ keep-alive แทน server — connection อาจถูกปิดโดยไม่ตั้งใจ |
+| Issue | Symptom |
+|-------|---------|
+| **Response buffering** | WAF stores response before forwarding — SSE events don't reach client in real-time |
+| **Connection timeout** | Huawei WAF cuts connections that are idle or long-lived beyond threshold |
+| **Chunked transfer** | WAF reassembles chunked responses before forwarding — destroys streaming nature |
+| **Content inspection delay** | WAF must inspect content before sending — adds latency to every event |
+| **Keep-alive interference** | WAF manages keep-alive instead of server — connection may close unintentionally |
 
-### ผลกระทบในทางปฏิบัติ
+### Real-World Impact
 
-- **AI Chat application** ที่ใช้ SSE stream tokens ทีละตัว → หน้าจอค้าง ไม่มีตัวอักษรเด้งออกมา
-- **Live dashboard** → ข้อมูล update ช้ามาก หรือไม่ update เลยจนกว่า connection จะ timeout แล้ว reconnect
-- **Log streaming** → logs ไม่ขึ้น real-time ต้อง refresh หน้าเพื่อเห็นข้อมูลใหม่
-- **Notification system** → notifications ถึง client ช้า หรือ batch มาพร้อมกันเป็นกลุ่มแทนที่จะมาทีละข้อความ
+- **AI Chat applications** using SSE to stream tokens one by one → screen freezes, no character output
+- **Live dashboards** → data updates very slowly or not at all until connection times out and reconnects
+- **Log streaming** → logs don't appear in real-time, must refresh page to see new data
+- **Notification systems** → notifications reach client late, or arrive batched together instead of one at a time
 
-### เปรียบเทียบ SSE Support
+### SSE Support Comparison
 
-| WAF | SSE / Streaming | หมายเหตุ |
-|-----|----------------|---------|
-| **Ant2Cloud** | ✅ รองรับเต็มที่ | ออกแบบมาให้รองรับ real-time streaming โดยไม่มีปัญหา buffering |
-| Cloudflare | ⚠️ รองรับบางส่วน | ต้องตั้งค่า enterprise plan / ขึ้นอยู่กับ feature |
-| AWS WAF | ⚠️ รองรับบางส่วน | ขึ้นอยู่กับ load balancer config |
-| **Huawei Cloud WAF** | ❌ มีปัญหา | Buffering + timeout ทำให้ SSE ไม่ทำงาน real-time |
-| FortiWeb | ⚠️ รองรับบางส่วน | ต้องปิด response buffering เอง |
+| WAF | SSE / Streaming | Notes |
+|-----|----------------|-------|
+| **Ant2Cloud** | ✅ Full support | Designed to support real-time streaming without buffering issues |
+| Cloudflare | ⚠️ Partial | Requires enterprise plan configuration / feature-dependent |
+| AWS WAF | ⚠️ Partial | Depends on load balancer config |
+| **Huawei Cloud WAF** | ❌ Has issues | Buffering + timeout prevents SSE from working in real-time |
+| FortiWeb | ⚠️ Partial | Must manually disable response buffering |
 
-> Ant2Cloud ออกแบบมาให้รองรับ **real-time streaming** ตั้งแต่ต้น — ไม่ว่าจะเป็น AI chat, live monitoring, หรือ event-driven application ทำงานได้ผ่าน WAF โดยไม่ต้อง workaround
-
----
-
-## ความแข็งแกร่ง — 5 ชั้นป้องกัน
-
-Ant2 บังคับ security 5 ชั้น แต่ละชั้นจับสิ่งที่ชั้นก่อนพลาด:
-
-| ชั้น | หน้าที่ |
-|------|---------|
-| 1 — Rate Limit | จำกัดจำนวน request ต่อ IP |
-| 2 — GeoIP Block | ปิดประเทศที่ไม่ต้องการก่อนทุกอย่าง |
-| 3 — IP Jail Block | block attacker ที่รู้จักแล้ว ก่อน WAF rules |
-| 4 — WAF Rules | ตรวจ SQLi, XSS, RCE, LFI, RFI |
-| 5 — Backend | traffic สะอาดเท่านั้นถึง origin server |
+> Ant2Cloud is designed to support **real-time streaming** from the ground up — whether AI chat, live monitoring, or event-driven applications work through the WAF without any workaround
 
 ---
 
-## เทียบกับ Free/OSS Alternatives
+## Defense Depth — 5 Layers
+
+Ant2 enforces 5 security layers, each catching what the previous missed:
+
+| Layer | Function |
+|-------|---------|
+| 1 — Rate Limit | Limit request count per IP |
+| 2 — GeoIP Block | Block unwanted countries before everything else |
+| 3 — IP Jail Block | Block known attackers before WAF rules |
+| 4 — WAF Rules | Inspect SQLi, XSS, RCE, LFI, RFI |
+| 5 — Backend | Only clean traffic reaches origin server |
+
+---
+
+## Compared to Free/OSS Alternatives
 
 | Feature | Ant2 | Fail2Ban | CrowdSec |
 |---------|------|----------|----------|
@@ -134,9 +134,7 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 | Custom error pages | ✅ | ❌ | ❌ |
 | SSE / Streaming | ✅ | ✅ | ✅ |
 | Data sovereignty | ✅ 100% on-premise | ✅ | ✅ |
-| Cost | **Free** | Free | Free / Paid |
-
----
+| Cost | **฿250,000 (one-time)** | Free | Free / Paid |
 
 ---
 
@@ -144,13 +142,13 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 
 | | Ant2Cloud | Cloudflare Business | Huawei Cloud WAF | FortiWeb (HW) |
 |--|-----------|--------------------|-----------------| --------------|
-| **ราคา** | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | Pay-per-use/ปี | $10,000–$50,000 |
+| **Price** | **฿250,000 (one-time)** | ~$3,000/yr | Pay-per-use/yr | $10,000–$50,000 |
 | GeoIP Block | ✅ | ✅ | ✅ | ✅ |
 | Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ rate-based | ✅ |
 | SSE / Streaming | ✅ | ⚠️ | ❌ | ⚠️ |
-| Data Sovereignty | ✅ 100% on-premise | ❌ | ❌ ผ่าน Huawei Cloud | ✅ |
-| ค่าบริการรายเดือน | ❌ ไม่มี | ✅ มี | ✅ มี | ❌ ไม่มี |
-| Support | 🇹🇭 ไทย local | Global | Global | Partner |
+| Data Sovereignty | ✅ 100% on-premise | ❌ | ❌ through Huawei Cloud | ✅ |
+| Monthly fees | ❌ None | ✅ Yes | ✅ Yes | ❌ None |
+| Support | 🇹🇭 Thai local | Global | Global | Partner |
 
 🌐 [ant2cloud.com](https://ant2cloud.com)
 
@@ -158,4 +156,4 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 
 ## See Also
 
-- [[Ant2-Proxy-Security-Manager]]
+- [[entities/Ant2-Proxy-Security-Manager|Ant2 Proxy Security Manager]]

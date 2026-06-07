@@ -4,25 +4,25 @@ title: "Ant2Cloud — Private Cloud Appliance & WAF"
 
 # Ant2Cloud 🇹🇭
 
-## "เอา Cloud ยกกลับมาไว้ที่บ้าน"
+## "Bring the Cloud Home"
 
-**Ant2Cloud** คือ hardware appliance นวัตกรรมจากประเทศไทย — รวมทุกอย่างไว้ในกล่องเดียว ไม่ต้องพึ่งพา SaaS หรือ Global Cloud รายใหญ่ ใช้แค่ FTTX internet ก็สร้าง Private Cloud ได้เลย
+**Ant2Cloud** is a hardware appliance innovation from Thailand — everything in one box, no dependency on SaaS or major global cloud providers. With just FTTX internet, you can run your own Private Cloud.
 
 🌐 **Website:** [ant2cloud.com](https://ant2cloud.com)
 
 ---
 
-## All-in-One Box — ทุกอย่างในกล่องเดียว
+## All-in-One Box — Everything in a Single Device
 
 ```
 GPON Fiber ──→ [ Ant2Cloud Box ] ──→ Private Cloud
                  │
-                 ├── ONU/ONT built-in (ไม่ต้องซื้อแยก)
+                 ├── ONU/ONT built-in (no separate device needed)
                  ├── Smart Router
                  ├── WAF — ANT2 Proxy Server
                  ├── IP Phone / VOIP Server
-                 ├── VLAN (IP Phone จาก ISP GPON)
-                 ├── DDNS — อัปเดต DNS อัตโนมัติ 10–15s
+                 ├── VLAN (IP Phone from ISP GPON)
+                 ├── DDNS — auto DNS update in 10–15s
                  └── 20 Virtual Machines
 ```
 
@@ -32,97 +32,97 @@ GPON Fiber ──→ [ Ant2Cloud Box ] ──→ Private Cloud
 | RAM | 64 GB |
 | Storage | 2 TB |
 | VM Capacity | 20 VMs |
-| Form Factor | Router style — บางเบา |
+| Form Factor | Router style — slim & lightweight |
 | Price | **฿250,000 THB** |
 
 ---
 
-## ทำไมต้อง Ant2Cloud?
+## Why Ant2Cloud?
 
-### ❌ ปัญหาของ Global Cloud / SaaS
+### ❌ Problems with Global Cloud / SaaS
 
-- Traffic ทั้งหมดผ่าน server ต่างประเทศ — **ข้อมูลรั่ว**
-- ค่าบริการรายเดือนไม่มีวันจบ — **แพงระยะยาว**
-- ต้องพึ่งพา Cloudflare, AWS, Azure — **ไม่มี sovereignty**
-- Internet ล่ม → Cloud ล่ม → ธุรกิจหยุด
+- All traffic passes through overseas servers — **data exposure risk**
+- Monthly subscription fees that never end — **expensive long-term**
+- Dependent on Cloudflare, AWS, Azure — **no data sovereignty**
+- Internet outage → Cloud down → Business stops
 
-### ✅ Ant2Cloud แก้ปัญหาทั้งหมด
+### ✅ Ant2Cloud Solves Everything
 
 | | Global SaaS Cloud | Ant2Cloud |
 |--|-------------------|-----------|
-| Data | ผ่าน server ต่างชาติ | **อยู่ในกล่องที่บ้านคุณ** |
-| ค่าใช้จ่าย | รายเดือนตลอดชีพ | **ซื้อครั้งเดียว** |
-| Internet | ต้องการตลอด | **ทำงานได้ offline บางส่วน** |
-| การควบคุม | vendor lock-in | **คุณเป็นเจ้าของ 100%** |
-| GeoIP Filter | มักคิดเงินแยก | **มีในตัว — เลือกประเทศได้** |
-| Static IP | ต้องซื้อจาก ISP | **ไม่ต้อง — DDNS built-in** |
-| VOIP | ซื้อ PABX แยก | **มีในตัว** |
-| Router | ซื้อแยก | **มีในตัว** |
-| ONU/ONT | ซื้อแยก | **มีในตัว** |
+| Data | Through foreign servers | **Stays in your box** |
+| Cost | Monthly forever | **One-time purchase** |
+| Internet | Required at all times | **Partially offline capable** |
+| Control | Vendor lock-in | **100% yours** |
+| GeoIP Filter | Usually paid separately | **Built-in — choose countries** |
+| Static IP | Must buy from ISP | **Not needed — DDNS built-in** |
+| VOIP | Buy PABX separately | **Built-in** |
+| Router | Buy separately | **Built-in** |
+| ONU/ONT | Buy separately | **Built-in** |
 
 ---
 
-## Ant2 WAF — Security ระดับ Enterprise
+## Ant2 WAF — Enterprise-Grade Security
 
-Ant2Cloud มาพร้อม **Ant2 WAF** ที่พัฒนาโดยทีมไทย — **ANT2 Proxy Server** มาตรฐานสากล
+Ant2Cloud includes **Ant2 WAF** developed by Thai engineers — **ANT2 Proxy Server** meeting international standards.
 
-### 3 ชั้นป้องกัน ที่ไม่มีใครทำได้ในราคานี้
+### 3-Layer Defense — Unmatched at This Price
 
 ```
-ชั้น 1 → GeoIP Block    ปิดประเทศที่ไม่ต้องการ
-ชั้น 2 → IP Jail        จับ attacker อัตโนมัติ ภายใน 20 วินาที
-ชั้น 3 → WAF Rules      ตรวจจับ SQLi, XSS, RCE, LFI อัตโนมัติ
+Layer 1 → GeoIP Block    Block unwanted countries
+Layer 2 → IP Jail        Auto-capture attackers within 20 seconds
+Layer 3 → WAF Rules      Auto-detect SQLi, XSS, RCE, LFI
 ```
 
-### Real IP Detection — ระบุ IP จริงของ user หรือ attacker ได้เสมอ ไม่ว่าจะผ่านกี่ชั้น
+### Real IP Detection — Always Identifies the True IP, Through Any Number of Layers
 
 ```
 User → CDN / Proxy / Load Balancer → [ Ant2Cloud Box ] → Website
                                             ↑
-                               วิเคราะห์และระบุ IP ต้นทางจริง
-                               ได้เสมอ โดยอัตโนมัติ
+                               Analyzes and identifies true source IP
+                               automatically — always
 ```
 
-**Ant2WAF วิเคราะห์และระบุ IP จริงของ user หรือ attacker ได้เสมอ ไม่ว่าจะผ่านกี่ชั้น** — ไม่ว่าจะมี CDN, reverse proxy, load balancer หรือ firewall คั่นอยู่กี่ตัว Ant2WAF ยังระบุ IP ต้นทางจริงได้ถูกต้อง
+**Ant2WAF always identifies the true IP of users or attackers, regardless of how many layers they go through** — whether CDN, reverse proxy, load balancer, or firewall in between, Ant2WAF correctly identifies the real source IP.
 
-- ✅ IP เครื่องไม่เปิดเผย — attacker ไม่รู้จะ DDoS ที่ไหน
-- ✅ GeoIP lookup ทำงานกับ **IP ต้นทางจริง** — ระบุประเทศถูกต้องแม้ผ่าน proxy
-- ✅ IP Jail จับ **attacker ตัวจริง** — ไม่ jail CDN node โดยไม่ตั้งใจ
-- ✅ Block / Unblock กระทำกับ IP ของผู้โจมตีจริง ไม่ใช่ intermediary
-- ✅ ทำงานอัตโนมัติ — ไม่ต้องตั้งค่าเพิ่ม
+- ✅ Device IP hidden — attackers don't know what to target for DDoS
+- ✅ GeoIP lookup works on **true source IP** — correct country even through proxy
+- ✅ IP Jail captures **actual attacker** — doesn't accidentally jail CDN nodes
+- ✅ Block/Unblock targets real attacker IP, not intermediaries
+- ✅ Automatic — no additional configuration needed
 
-### GeoIP Country Filter — เสิร์ฟเฉพาะประเทศที่ต้องการ
+### GeoIP Country Filter — Serve Only the Countries You Want
 
-Ant2Cloud รองรับการตั้งค่า **Allow List** หรือ **Block List** ระดับประเทศ:
+Ant2Cloud supports **Allow List** or **Block List** at country level:
 
 ```
-โหมด Allow List:  อนุญาต TH เท่านั้น → บล็อกทุกประเทศอื่น ✅
-โหมด Block List:  บล็อก CN, RU, KP  → อนุญาตทุกประเทศอื่น ✅
+Allow List mode:  Allow TH only → block all other countries ✅
+Block List mode:  Block CN, RU, KP → allow all others ✅
 ```
 
-- ระบุได้ทั้ง **รายโฮสต์** (per-host) และ **global** ทุก domain พร้อมกัน
-- GeoIP lookup เร็วมาก — **latency < 1ms ต่อ request** ไม่ส่งผลต่อประสิทธิภาพ
-- มีระบบ cache — request ซ้ำตอบสนองได้เร็วขึ้นอีก
-- รองรับ **Cloudflare CDN** — แยก IP ต้นทาง user จาก CDN node ได้ถูกต้อง
-- ใช้ร่วมกับ **IP Jail** ได้ทันที — บล็อกประเทศก่อน จับ attacker ที่เหลือ
+- Configurable both **per-host** and **global** across all domains at once
+- GeoIP lookup is extremely fast — **latency < 1ms per request** — no performance impact
+- Second-layer cache — repeated requests respond even faster
+- Supports **Cloudflare CDN** — correctly separates user source IP from CDN node
+- Works with **IP Jail** immediately — block countries first, then jail remaining attackers
 
-### IP Jail — นวัตกรรมที่แตกต่าง
+### IP Jail — The Innovation That Makes the Difference
 
-WAF ทั่วโลก block จาก **rate** (จำนวน request ต่อนาที)
+Most WAFs worldwide block based on **rate** (requests per minute)
 
-**Ant2 block จาก WAF rule violation count** — จับ slow attack ที่คนอื่นพลาด:
+**Ant2 blocks based on WAF rule violation count** — catching what others miss:
 
-> ผู้โจมตีส่ง payload อันตราย 1 request ทุก 30 วินาที → rate-based WAF ไม่ block → **Ant2 block หลัง 10 violations** ไม่ว่าจะช้าแค่ไหน
+> Attacker sends dangerous payload once every 30 seconds → rate-based WAF won't block → **Ant2 blocks after 10 violations** regardless of how slow the attack is
 
-### เปรียบกับ WAF ชั้นนำของโลก
+### Compare with World-Leading WAFs
 
 | | Ant2Cloud | Cloudflare Business | Imperva | FortiWeb |
 |--|-----------|--------------------|---------| ---------|
-| ราคา | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | ~$20,000+/ปี | $10,000–$50,000 |
+| Price | **฿250,000 (one-time)** | ~$3,000/yr | ~$20,000+/yr | $10,000–$50,000 |
 | GeoIP Block | ✅ | ✅ | ✅ | ✅ |
 | Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ behavioral | ✅ |
-| Cloudflare Real IP | ✅ | N/A (IS CF) | ✅ | ✅ |
-| Data Sovereignty | ✅ **100% on-premise** | ❌ ผ่าน CF | ❌ ผ่าน Imperva | ✅ |
+| Real IP Detection | ✅ | N/A (IS CF) | ✅ | ✅ |
+| Data Sovereignty | ✅ **100% on-premise** | ❌ through CF | ❌ through Imperva | ✅ |
 | VOIP Server | ✅ **built-in** | ❌ | ❌ | ❌ |
 | ONU/ONT | ✅ **built-in** | ❌ | ❌ | ❌ |
 | VM Platform | ✅ **20 VMs** | ❌ | ❌ | ❌ |
@@ -130,48 +130,48 @@ WAF ทั่วโลก block จาก **rate** (จำนวน request ต�
 
 ---
 
-## Huawei Cloud WAF — ปัญหา SSE Streaming *(issue detected Mar 2026)*
+## Huawei Cloud WAF — SSE Streaming Issue *(issue detected Mar 2026)*
 
-> **Huawei Cloud WAF** มีปัญหากับ **SSE (Server-Sent Events)** — เทคโนโลยีที่ใช้ใน AI chat, live dashboard, และ real-time notification
+> **Huawei Cloud WAF** has issues with **SSE (Server-Sent Events)** — technology used in AI chat, live dashboards, and real-time notifications
 
-**สาเหตุ:** Huawei WAF ทำงานเป็น proxy ที่ **buffer response ก่อน forward** ไปยัง client — แต่ SSE คือ stream ที่ไม่มีจุดสิ้นสุด WAF รอ buffer เสร็จ → ไม่มีวันเสร็จ
+**Root Cause:** Huawei WAF operates as a proxy that **buffers responses before forwarding** to clients — but SSE is a stream with no end. The WAF waits for buffering to complete → it never completes.
 
-| ปัญหา | อาการที่พบ |
-|-------|-----------|
-| Response buffering | SSE events ไม่ถึง client real-time — ค้างรอ |
-| Connection timeout | WAF ตัด long-lived connection ก่อนเวลา |
-| Chunked transfer | ทำลาย streaming — events มาเป็น batch แทน |
+| Issue | Symptom |
+|-------|---------|
+| Response buffering | SSE events don't reach client in real-time — stuck waiting |
+| Connection timeout | WAF cuts long-lived connections prematurely |
+| Chunked transfer | Destroys streaming — events arrive in batches instead |
 
-**ผลกระทบจริง:**
-- AI chat application → หน้าจอค้าง ตัวอักษรไม่เด้ง
-- Live dashboard → ข้อมูลไม่ update จนกว่าจะ reconnect
-- Notification system → notifications มาพร้อมกันเป็นกลุ่ม
+**Real-world Impact:**
+- AI chat application → screen freezes, no character streaming
+- Live dashboard → data doesn't update until forced reconnection
+- Notification system → notifications arrive in delayed batches
 
 | WAF | SSE Support |
 |-----|------------|
-| **Ant2Cloud** | ✅ รองรับเต็มที่ — ออกแบบมาให้ streaming ทำงานได้ทันที |
-| **Huawei Cloud WAF** | ❌ มีปัญหา buffering + timeout *(Mar 2026)* |
-| Cloudflare | ⚠️ ขึ้นอยู่กับ plan |
-| AWS WAF | ⚠️ ขึ้นอยู่กับ config |
+| **Ant2Cloud** | ✅ Full support — designed for real-time streaming from the ground up |
+| **Huawei Cloud WAF** | ❌ Buffering + timeout issues *(Mar 2026)* |
+| Cloudflare | ⚠️ Depends on plan |
+| AWS WAF | ⚠️ Depends on config |
 
 ---
 
-## สำหรับใคร?
+## Who Is It For?
 
-- 🏢 **SME / Office** — ต้องการ Private Cloud + VOIP + Security ในงบเดียว
-- 🏠 **Home Office** — FTTX internet + Ant2Cloud = Cloud ส่วนตัว
-- 🏥 **Healthcare / Finance** — ข้อมูลต้องไม่ออกนอกองค์กร
-- 🇹🇭 **องค์กรรัฐ** — Data sovereignty 100% ในประเทศ
+- 🏢 **SME / Office** — need Private Cloud + VOIP + Security in one budget
+- 🏠 **Home Office** — FTTX internet + Ant2Cloud = your own private Cloud
+- 🏥 **Healthcare / Finance** — data must not leave the organization
+- 🇹🇭 **Government** — 100% in-country Data Sovereignty
 
 ---
 
 ## Knowledge Base
 
-- [[Ant2-Proxy-Security-Manager]] — Ant2 WAF full documentation
-- [[2026-06-07-ant2-vs-world-waf-comparison]] — Ant2 vs World WAF comparison
+- [[entities/Ant2-Proxy-Security-Manager|Ant2 WAF — Full Documentation]]
+- [[analyses/2026-06-07-ant2-vs-world-waf-comparison|Ant2 vs World WAF Comparison]]
 
 ---
 
-> 🇹🇭 **Ant2Cloud — พัฒนาในประเทศไทย สำหรับโลก**
-> 
+> 🇹🇭 **Ant2Cloud — Built in Thailand, for the World**
+>
 > [ant2cloud.com](https://ant2cloud.com)
