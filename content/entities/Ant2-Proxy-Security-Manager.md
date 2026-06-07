@@ -1,7 +1,7 @@
 ---
 title: "Ant2 Proxy Security Manager"
 type: entity
-tags: [ant2, project, nginx, waf, modsecurity, crs, geoip, redis, docker, react, nodejs]
+tags: [ant2, geoip, web-service]
 sources: [2026-05-05-ant2-progress, 2026-05-05-ant2-changelog, 2026-05-07-ant2-v242-v243-session, 2026-05-09-ant2-v248-v2411-session, 2026-05-09-ant2-v2412-v2415-session, 2026-05-13-ant2-v2426-amnesty-session, 2026-05-12-ant2-v2420-redis-monitor-domain-fix]
 created: 2026-05-05
 updated: 2026-05-12

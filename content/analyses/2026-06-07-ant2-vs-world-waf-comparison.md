@@ -1,7 +1,7 @@
 ---
 title: "Ant2 vs World WAF — Feature & Performance Comparison"
 type: analysis
-tags: [ant2, waf, comparison, geoip, ip-jail, cloudflare, performance, thai-developer]
+tags: [ant2, geoip, web-service]
 created: 2026-06-07
 updated: 2026-06-07
 ---
