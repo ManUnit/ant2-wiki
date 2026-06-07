@@ -128,6 +128,8 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 | Management GUI | ✅ | ❌ | ⚠️ |
 | GeoIP block | ✅ Per-host + global | ⚠️ Global only | ✅ |
 | Auto-jail | ✅ WAF-event-based | ✅ log-based | ✅ |
+| Swarm Attack Protection | ✅ GeoIP + event-jail + rate | ⚠️ rate only | ⚠️ |
+| Attack Domain Identification | ✅ real-time per domain | ❌ | ❌ |
 | SSL management | ✅ Let's Encrypt + manual | ❌ | ❌ |
 | Custom error pages | ✅ | ❌ | ❌ |
 | SSE / Streaming | ✅ | ✅ | ✅ |

@@ -136,6 +136,50 @@ GPON Fiber (ISP)
 - SSL อัตโนมัติ (Let's Encrypt) + อัปโหลด certificate เอง + แจ้งเตือนหมดอายุ
 - Custom error page ออกแบบเองได้ทุก HTTP status code
 - Dashboard Monitor วิเคราะห์ traffic, attack trend, และสถานะระบบ real-time
+- **Swarm Attack Protection** — ป้องกันการโจมตีแบบกระจาย หลาย IP พร้อมกัน
+- **Attack Domain Identification** — ระบุได้ทันทีว่า domain ไหนกำลังถูกโจมตีอยู่
+
+## Swarm Attack Protection — รับมือการโจมตีแบบกองทัพ
+
+**Swarm Attack** คือการโจมตีแบบกระจายจากหลาย IP พร้อมกัน — แต่ละ IP ส่ง request ช้าพอที่จะไม่ติด rate limit แต่รวมกันแล้วทำให้ระบบล่ม WAF ทั่วไปที่ดูแค่ rate ต่อ IP จะไม่เห็นว่าเกิดอะไรขึ้น
+
+```
+IP-A  → 5 requests/min  ← ไม่ติด rate limit
+IP-B  → 5 requests/min  ← ไม่ติด rate limit
+IP-C  → 5 requests/min  ← ไม่ติด rate limit
+...
+IP-500 → 5 requests/min
+─────────────────────────
+รวม: 2,500 requests/min → server ล่ม
+```
+
+**Ant2Cloud รับมือ Swarm Attack ด้วย 3 กลไกพร้อมกัน:**
+
+| กลไก | วิธีทำงาน |
+|------|----------|
+| **GeoIP Block** | ตัด IP ทั้ง subnet/ประเทศที่เป็นแหล่งของ swarm ได้ทันที |
+| **WAF Event-based Jail** | แต่ละ IP ใน swarm ที่ส่ง payload อันตราย → ถูก jail อัตโนมัติเป็นรายตัว |
+| **Rate Limiting Global** | จำกัด rate ระดับ global ต่อ domain — ป้องกัน flood แม้ IP แต่ละตัวดูเบา |
+
+> ต่างจาก WAF ทั่วไป — Ant2 จับ attacker แต่ละตัวใน swarm ได้จาก **พฤติกรรม** (WAF violations) ไม่ใช่แค่ rate
+
+## Attack Domain Identification — รู้ทันทีว่า domain ไหนโดนโจมตี
+
+เมื่อถูกโจมตี สิ่งที่ต้องรู้เร็วที่สุดคือ: **โดนที่ domain ไหน?**
+
+Ant2Cloud ระบุ domain เป้าหมายได้ทันทีแบบ real-time:
+
+| ข้อมูล | รายละเอียด |
+|--------|-----------|
+| **Attack per domain** | Dashboard แสดงจำนวน WAF violations แยกต่อ domain |
+| **Jailed IP → Domain** | ทุก IP ที่ถูก Jail บันทึกไว้ว่ากำลังโจมตี domain ใด |
+| **Attack type per domain** | แยกประเภทการโจมตี (SQLi, XSS, RCE ฯลฯ) ต่อ domain |
+| **Timeline** | เห็น pattern การโจมตีว่าเริ่มที่เมื่อไหร่ domain ไหนโดนก่อน |
+
+**ประโยชน์ในการรับมือ:**
+- รู้ว่าต้อง isolate หรือ lockdown domain ไหนก่อน
+- เห็นว่า swarm กำลัง rotate เป้าหมายระหว่าง domain หรือไม่
+- ตัดสินใจ apply GeoIP block หรือ custom rule ได้ตรงจุด
 
 ## See Also
 
