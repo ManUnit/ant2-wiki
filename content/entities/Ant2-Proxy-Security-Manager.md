@@ -126,105 +126,16 @@ GPON Fiber (ISP)
 
 ทุกอย่างอยู่ในกล่องเดียว ราคา **฿250,000 THB**
 
-## Current Version
+## ความสามารถหลัก
 
-**v2.4.29** (latest release)
-
-## v2.4.16–v2.4.26 Changes
-
-| Version | Change |
-|---------|--------|
-| v2.4.20 | Redis Monitor panel in `/monitor` SSE stream (hit rate, memory, ops/sec); `jail:dom:<ip>` Redis SET to persist domain attribution past `waf_events` 2h purge; `/counters` route fallback to Redis when DB empty |
-| v2.4.16–v2.4.19, v2.4.21–v2.4.25 | (intermediate: UI improvements, compact row table theme, Monitor dashboard layout, SelectBox portal dropdown) |
-| v2.4.26 | [[jail-amnesty-list]]: `jail_whitelist` table + `/api/jail/whitelist` CRUD + jailService skip logic + 3rd Amnesty tab (emerald); GeoIP `toggleCountry()` semantic fix — action now matches mode |
-
-## v2.4.12–v2.4.15 Changes
-
-| Version | Change |
-|---------|--------|
-| v2.4.12 | `countPostJailHits()` — count 423 blocks from nginx access log via Redis watermark; new `post_jail_count` DB column |
-| v2.4.13 | Attack count continues growing after jail (was frozen at jail time); 3-tier UI counter |
-| v2.4.14 | `ip-blocked.html` wording updated to automated threat detection language |
-| v2.4.15 | Jail poll 10s, ingest rate 10s, release 30s; default threshold 10; 3-server deploy |
-
-### Jail Pipeline Settings (v2.4.15)
-
-| Parameter | Value |
-|-----------|-------|
-| `pollAttacks` interval | 10 s |
-| `releaseExpired` interval | 30 s |
-| `maybeIngestWafLogs` rate limit | 10 s |
-| Default `jail_threshold` | 10 attacks |
-| Worst-case time to jail | ~20 s |
-
-## Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18 + Vite + Tailwind CSS 3 |
-| API | Node.js / Express 4 + SQLite (better-sqlite3) |
-| WAF engine | NGINX + ModSecurity v3 + OWASP CRS |
-| Cache / GeoIP | Redis 7 (128MB LRU) |
-| Containers | Docker Compose (4 services) |
-| Auth | JWT (bcryptjs) |
-| SSL | Let's Encrypt ACME + manual PEM/CRT upload |
-
-## Services (Docker Compose)
-
-| Service | Container | Role |
-|---------|-----------|------|
-| `nginx-waf` | `ant2proxy-waf` | NGINX + ModSecurity + CRS |
-| `api` | `ant2proxy-api` | Express REST API |
-| `web` | `ant2proxy-web` | React frontend (Vite build) |
-| `redis` | `ant2proxy-redis` | Cache + GeoIP lookup cache |
-
-## Production Deployment
-
-- **Path**: `/opt/ant2proxy/` (post-v2.4.x; old installs at `/opt/nginx-gui/`)
-- **Start**: `sudo docker compose up -d --build` (or `ant2-proxy rebuild`)
-- **CLI**: `ant2-proxy {start|stop|restart|rebuild|logs|status}` (installed via `install.sh`)
-- **Project name**: `ant2proxy` (containers: `ant2proxy-waf`, `ant2proxy-api`, `ant2proxy-web`, `ant2proxy-redis`)
-
-## Custom WAF Rules
-
-Three global custom rules ship in `nginx-waf/modsecurity-engine.conf` (included by every per-host config) since v2.4.2. They fill gaps where CRS does not inspect the `ARGS` collection for certain attack patterns — see [[crs-rule-scope]] and [[custom-waf-rules]].
-
-| Rule ID | Attack | Pattern |
-|---------|--------|---------|
-| 9500101 | PHP extension in GET/POST ARGS | `.ph(p[0-9]?|tml|ar)` at end of value |
-| 9500102 | PHP double extension in ARGS | `.php.jpg` style filenames |
-| 9500103 | Open redirect in ARGS | External URL (`https?://`) in redirect/url/return/goto params |
-
-> [!warning] Rule 9500103 will block OAuth callback flows that pass external URLs in `redirect=` parameters. Add a per-host bypass rule for known callback paths.
-
-## Key Features
-
-- Proxy host CRUD with path rules, force HTTPS, HTTP/2, WebSocket, HSTS
-- WAF: 3-way mode, [[paranoia-levels]] 1–4, [[platform-presets]] (18 incl. Magento), [[bypass-presets]] (10)
-- WAF Monitor: time-series charts, attack categories (XSS/SQLi/RCE/LFI/RFI/Proto), audit log
-- [[geoip-country-blocking]]: per-host + global, Cloudflare-aware (2-stage map)
-- [[rate-limiting-nginx]]: limit_conn / limit_req / limit_rate per host + monitor + custom 429 page
-- SSL: Let's Encrypt + manual upload, expiry tracking
-- Custom error pages (400/401/403/404/429/451/500/502/503/504/default) with [[wysiwyg-iframe-editor]]
-- **Ant2 Config tab**: edit `nginx-ant2-custom.conf` + nginx -t test button
-- **[[server-header-disclosure]]**: `more_clear_headers 'Server'` via headers-more module
-
-## Critical Architectural Rule
-
-> WAF conf must always be written **before** nginx conf. inotify triggers nginx reload on the first file write — if WAF conf doesn't exist yet, nginx test fails.
-
-See [[inotify-write-order-pattern]].
-
-## Pending Backlog
-
-| Feature | Priority |
-|---------|----------|
-| WAF Monitor: filter by attack category | High |
-| WAF Monitor: export CSV | High |
-| Backup & restore DB via UI | High |
-| Multi-user / RBAC | High |
-| SSL wildcard via DNS-01 | Medium |
-| Dark mode | Low |
+- บริหาร Proxy Host หลาย domain ผ่าน GUI — ตั้งค่า HTTPS, HTTP/2, WebSocket, HSTS ได้ทันที
+- WAF พร้อม dashboard วิเคราะห์การโจมตี real-time (XSS, SQLi, RCE, LFI, RFI)
+- GeoIP country filter — Allow List / Block List ระดับประเทศ ต่อ domain หรือ global
+- IP Jail อัตโนมัติ — จับ attacker ภายใน ~20 วินาที ไม่ว่าจะโจมตีเร็วหรือช้า
+- Rate Limiting per domain — ป้องกัน brute force และ flood attack
+- SSL อัตโนมัติ (Let's Encrypt) + อัปโหลด certificate เอง + แจ้งเตือนหมดอายุ
+- Custom error page ออกแบบเองได้ทุก HTTP status code
+- Dashboard Monitor วิเคราะห์ traffic, attack trend, และสถานะระบบ real-time
 
 ## See Also
 
