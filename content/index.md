@@ -19,7 +19,7 @@ GPON Fiber ──→ [ Ant2Cloud Box ] ──→ Private Cloud
                  │
                  ├── ONU/ONT built-in (ไม่ต้องซื้อแยก)
                  ├── Smart Router
-                 ├── WAF — NGINX + OWASP CRS
+                 ├── WAF — ANT2 Proxy Server
                  ├── IP Phone / VOIP Server
                  ├── VLAN (IP Phone จาก ISP GPON)
                  ├── DDNS — อัปเดต DNS อัตโนมัติ 10–15s
@@ -64,14 +64,14 @@ GPON Fiber ──→ [ Ant2Cloud Box ] ──→ Private Cloud
 
 ## Ant2 WAF — Security ระดับ Enterprise
 
-Ant2Cloud มาพร้อม **Ant2 WAF** ที่พัฒนาโดยทีมไทย บน NGINX + OWASP CRS มาตรฐานโลก
+Ant2Cloud มาพร้อม **Ant2 WAF** ที่พัฒนาโดยทีมไทย — **ANT2 Proxy Server** มาตรฐานสากล
 
 ### 3 ชั้นป้องกัน ที่ไม่มีใครทำได้ในราคานี้
 
 ```
 ชั้น 1 → GeoIP Block    ปิดประเทศที่ไม่ต้องการ
 ชั้น 2 → IP Jail        จับ attacker อัตโนมัติ ภายใน 20 วินาที
-ชั้น 3 → WAF Rules      OWASP CRS 4.26.0 — SQLi, XSS, RCE, LFI
+ชั้น 3 → WAF Rules      ตรวจจับ SQLi, XSS, RCE, LFI อัตโนมัติ
 ```
 
 ### Cloudflare Shield + Real IP Extraction — ซ่อน IP เครื่อง แต่ block User ได้ถูกต้อง
@@ -86,16 +86,16 @@ User → Cloudflare CDN → [ Ant2Cloud Box ] → Website
 **ทำไมต้องทำแบบนี้:**
 
 - ✅ IP เครื่องไม่เปิดเผย — attacker ไม่รู้จะ DDoS ที่ไหน
-- ✅ Ant2WAF อ่าน `CF-Connecting-IP` header → ได้ IP จริงของ user
+- ✅ Ant2WAF แยก IP จริงของ user ออกมาได้เสมอ
 - ✅ GeoIP lookup, IP Jail, และ Block ทำงานกับ **IP ต้นทางจริง** ไม่ใช่ IP ของ Cloudflare
-- ✅ rate limiting / IP Jail ไม่ jail Cloudflare CDN node โดยไม่ตั้งใจ
+- ✅ ไม่ block Cloudflare CDN node โดยไม่ตั้งใจ
 
 **2-Stage IP Detection:**
 
 | สถานการณ์ | IP ที่ใช้ |
 |-----------|----------|
-| Traffic ผ่าน Cloudflare | `CF-Connecting-IP` header (real user IP) |
-| Traffic ตรง (non-CF) | `$remote_addr` (TCP source IP) |
+| Traffic ผ่าน Cloudflare | Real user IP (อัตโนมัติ) |
+| Traffic ตรง (non-CF) | TCP source IP |
 
 Ant2WAF ตรวจสอบอัตโนมัติ — ไม่ต้องตั้งค่าเพิ่ม
 
@@ -129,7 +129,7 @@ WAF ทั่วโลก block จาก **rate** (จำนวน request ต�
 | ราคา | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | ~$20,000+/ปี | $10,000–$50,000 |
 | GeoIP Block | ✅ | ✅ | ✅ | ✅ |
 | Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ behavioral | ✅ |
-| Cloudflare Real IP | ✅ **CF-Connecting-IP** | N/A (IS CF) | ✅ | ✅ |
+| Cloudflare Real IP | ✅ | N/A (IS CF) | ✅ | ✅ |
 | Data Sovereignty | ✅ **100% on-premise** | ❌ ผ่าน CF | ❌ ผ่าน Imperva | ✅ |
 | VOIP Server | ✅ **built-in** | ❌ | ❌ | ❌ |
 | ONU/ONT | ✅ **built-in** | ❌ | ❌ | ❌ |
@@ -149,13 +149,7 @@ WAF ทั่วโลก block จาก **rate** (จำนวน request ต�
 
 ## Knowledge Base
 
-Wiki นี้รวบรวมความรู้ด้าน WAF, NGINX, OWASP CRS และ Security Operations
-
 - [[Ant2-Proxy-Security-Manager]] — Ant2 WAF full documentation
-- [[auto-jail-pipeline]] — IP Jail pipeline architecture
-- [[geoip-country-blocking]] — GeoIP implementation
-- [[request-flow-layers]] — 5-layer defense architecture
-- [[OWASP-CRS]] — OWASP Core Rule Set
 - [[2026-06-07-ant2-vs-world-waf-comparison]] — Ant2 vs World WAF comparison
 
 ---

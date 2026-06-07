@@ -2,14 +2,14 @@
 title: "Ant2 Proxy Security Manager"
 type: entity
 tags: [ant2, geoip, web-service]
-sources: [2026-05-05-ant2-progress, 2026-05-05-ant2-changelog, 2026-05-07-ant2-v242-v243-session, 2026-05-09-ant2-v248-v2411-session, 2026-05-09-ant2-v2412-v2415-session, 2026-05-13-ant2-v2426-amnesty-session, 2026-05-12-ant2-v2420-redis-monitor-domain-fix]
+sources: []
 created: 2026-05-05
 updated: 2026-05-12
 ---
 
 # Ant2 Proxy Security Manager
 
-Full-stack NGINX reverse-proxy GUI with integrated [[ModSecurity]] v3 + [[OWASP-CRS]], GeoIP country blocking, Redis caching, and per-host rate limiting. Built by an independent developer in Thailand 🇹🇭. Available as open-source software and as a **commercial hardware appliance**.
+**ANT2 Proxy Server** — ระบบ WAF และ reverse-proxy เต็มรูปแบบพร้อม GUI บริหารจัดการ รองรับ GeoIP country blocking, IP Jail, rate limiting ต่อ domain พัฒนาโดยทีมไทย 🇹🇭 มีจำหน่ายในรูปแบบ **commercial hardware appliance**.
 
 ## Commercial Product — Ant2Cloud Box Appliance
 
@@ -37,7 +37,7 @@ Full-stack NGINX reverse-proxy GUI with integrated [[ModSecurity]] v3 + [[OWASP-
 
 | Feature | Detail |
 |---------|--------|
-| **Ant2 WAF** | NGINX + OWASP CRS — GeoIP country filter, IP Jail, rate limiting |
+| **Ant2 WAF** | ANT2 Proxy Server — GeoIP country filter, IP Jail, rate limiting |
 | **Smart Router** | Built-in smart router ในตัว |
 | **ONU / ONT** | Built-in — เสียบสาย GPON fiber ได้ตรงเลย ไม่ต้องซื้อ ONU แยก |
 | **IP Phone Server** | VOIP server ในตัว — รองรับ IP Phone ทั้ง office |
@@ -112,7 +112,7 @@ GPON Fiber (ISP)
   └── Ant2Cloud Box (ONU/ONT built-in)
         ├── Smart Router
         ├── VLAN → IP Phone / VOIP Server
-        ├── WAF (NGINX + OWASP CRS)
+        ├── WAF (ANT2 Proxy Server)
         ├── 20x Virtual Machines
         └── Private Cloud Services
 ```
@@ -139,22 +139,7 @@ GPON Fiber (ISP)
 
 ## See Also
 
-- [[OWASP-CRS]]
-- [[ModSecurity]]
-- [[request-flow-layers]]
-- [[auto-jail-pipeline]]
-- [[jail-amnesty-list]]
-- [[redis-key-patterns]]
-- [[custom-waf-rules]]
-- [[crs-rule-scope]]
-- [[waf-validation-testing]]
-- [[platform-presets]]
-- [[bypass-presets]]
-- [[geoip-country-blocking]]
-- [[rate-limiting-nginx]]
-- [[inotify-write-order-pattern]]
-- [[server-header-disclosure]]
-- [[wysiwyg-iframe-editor]]
+- [[2026-06-07-ant2-vs-world-waf-comparison]]
 - [[2026-05-06-ant2-v2361-release-notes]]
 - [[2026-05-07-ant2-v242-v243-session]]
 - [[2026-05-09-ant2-v248-v2411-session]]

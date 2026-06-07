@@ -27,7 +27,7 @@ updated: 2026-06-07
 | Fail2Ban + nginx + CRS | ✅ (manual) | ✅ | ✅ log-based | Free (ต้องตั้งเอง) |
 | CrowdSec + Bouncer | ✅ | ✅ | ✅ scenario-based | Free / Paid |
 | FortiWeb / F5 BIG-IP | ✅ | ✅ | ✅ IP Intelligence | Enterprise |
-| ModSecurity + CRS (เปล่า) | ❌ | ❌ | ❌ | Free (ไม่มี GUI) |
+| WAF Engine เปล่า (ไม่มี GUI) | ❌ | ❌ | ❌ | Free |
 
 ---
 
@@ -67,14 +67,14 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 | 1 — Rate Limit | จำกัดจำนวน request ต่อ IP |
 | 2 — GeoIP Block | ปิดประเทศที่ไม่ต้องการก่อนทุกอย่าง |
 | 3 — IP Jail Block | block attacker ที่รู้จักแล้ว ก่อน WAF rules |
-| 4 — WAF Rules (OWASP CRS) | ตรวจ SQLi, XSS, RCE, LFI, RFI |
+| 4 — WAF Rules | ตรวจ SQLi, XSS, RCE, LFI, RFI |
 | 5 — Backend | traffic สะอาดเท่านั้นถึง origin server |
 
 ---
 
 ## เทียบกับ Free/OSS Alternatives
 
-| Feature | Ant2 | Fail2Ban + nginx + CRS | CrowdSec + nginx |
+| Feature | Ant2 | Fail2Ban | CrowdSec |
 |---------|------|----------------------|-----------------|
 | Management GUI | ✅ | ❌ | ⚠️ |
 | GeoIP block | ✅ Per-host + global | ⚠️ Global only | ✅ |
@@ -122,4 +122,3 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 
 - [[Ant2-Proxy-Security-Manager]]
 - [[OWASP-CRS]]
-- [[ModSecurity]]
