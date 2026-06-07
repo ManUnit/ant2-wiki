@@ -116,18 +116,18 @@ Most WAFs worldwide block based on **rate** (requests per minute)
 
 ### Compare with World-Leading WAFs
 
-| | Ant2Cloud | Cloudflare Business | Imperva | Huawei Cloud WAF | Tencent Cloud WAF | FortiWeb |
-|--|-----------|--------------------|---------|-----------------|-----------------| ---------|
-| Price | **฿250,000 (one-time)** | ~$3,000/yr | ~$20,000+/yr | Pay-per-use | Pay-per-use | $10,000–$50,000 |
-| GeoIP Block | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ behavioral | ✅ rate-based | ✅ rate-based | ✅ |
-| Real IP Detection | ✅ | N/A (IS CF) | ✅ | ✅ | ✅ | ✅ |
-| SSE / Streaming | ✅ | ⚠️ | ⚠️ | ❌ *(Mar 2026)* | ⚠️ | ⚠️ |
-| Data Sovereignty | ✅ **100% on-premise** | ❌ through CF | ❌ through Imperva | ❌ Huawei Cloud | ❌ Tencent Cloud | ✅ |
-| VOIP Server | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ | ❌ |
-| ONU/ONT | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ | ❌ |
-| VM Platform | ✅ **20 VMs** | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Smart Router | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ | ❌ |
+| | Ant2Cloud | Cloudflare Business | Imperva | Huawei Cloud WAF | FortiWeb |
+|--|-----------|--------------------|---------|-----------------| ---------|
+| Price | **฿250,000 (one-time)** | ~$3,000/yr | ~$20,000+/yr | Pay-per-use | $10,000–$50,000 |
+| GeoIP Block | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ behavioral | ✅ rate-based | ✅ |
+| Real IP Detection | ✅ | N/A (IS CF) | ✅ | ✅ | ✅ |
+| SSE / Streaming | ✅ | ⚠️ | ⚠️ | ❌ *(Mar 2026)* | ⚠️ |
+| Data Sovereignty | ✅ **100% on-premise** | ❌ through CF | ❌ through Imperva | ❌ Huawei Cloud | ✅ |
+| VOIP Server | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ |
+| ONU/ONT | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ |
+| VM Platform | ✅ **20 VMs** | ❌ | ❌ | ❌ | ❌ |
+| Smart Router | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -152,7 +152,6 @@ Most WAFs worldwide block based on **rate** (requests per minute)
 |-----|------------|
 | **Ant2Cloud** | ✅ Full support — designed for real-time streaming from the ground up |
 | **Huawei Cloud WAF** | ❌ Buffering + timeout issues *(Mar 2026)* |
-| **Tencent Cloud WAF** | ⚠️ Likely issues — proxy-based architecture, requires workaround |
 | Cloudflare | ⚠️ Depends on plan |
 | AWS WAF | ⚠️ Depends on config |
 

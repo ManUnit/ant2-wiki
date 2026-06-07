@@ -22,7 +22,6 @@ Only a handful of WAF solutions worldwide combine GeoIP + IP Block + IP Jail in 
 | Cloudflare WAF | ✅ | ✅ | ✅ rate-based | Free → Enterprise/yr |
 | AWS WAF + Shield | ✅ | ✅ | ✅ rate-based | Pay-per-request |
 | Huawei Cloud WAF | ✅ | ✅ | ✅ rate-based | Pay-per-use |
-| Tencent Cloud WAF | ✅ | ✅ | ✅ rate-based | Pay-per-use |
 | Akamai App & API Protector | ✅ | ✅ | ✅ behavioral | Enterprise |
 | Imperva WAF | ✅ | ✅ | ✅ behavioral | Enterprise/yr |
 | Fastly WAF (Signal Sciences) | ✅ | ✅ | ✅ threshold-based | Mid-Enterprise |
@@ -51,13 +50,13 @@ Ant2 (event-based):       10 WAF violations (SQLi/XSS/RCE) → block
 
 ## Speed Comparison
 
-| Capability | Ant2 | Cloudflare | AWS WAF | Huawei Cloud WAF | Tencent Cloud WAF |
-|-----------|------|------------|---------|-----------------|-----------------|
-| Config change detection | Instant (kernel-level) | Managed | API push (~1-5s) | Managed (~seconds) | Managed (~seconds) |
-| Test before apply | ✅ | N/A | N/A | N/A | N/A |
-| Apply without dropping connections | ✅ Zero downtime | ✅ | ✅ | ✅ | ✅ |
-| GeoIP lookup | < 1ms (in-memory) | CDN-edge | CDN-edge | CDN-edge | CDN-edge |
-| Streaming / SSE support | ✅ No issues | ⚠️ Config-dependent | ⚠️ | ❌ Has issues | ⚠️ Likely issues |
+| Capability | Ant2 | Cloudflare | AWS WAF | Huawei Cloud WAF |
+|-----------|------|------------|---------|-----------------|
+| Config change detection | Instant (kernel-level) | Managed | API push (~1-5s) | Managed (~seconds) |
+| Test before apply | ✅ | N/A | N/A | N/A |
+| Apply without dropping connections | ✅ Zero downtime | ✅ | ✅ | ✅ |
+| GeoIP lookup | < 1ms (in-memory) | CDN-edge | CDN-edge | CDN-edge |
+| Streaming / SSE support | ✅ No issues | ⚠️ Config-dependent | ⚠️ | ❌ Has issues |
 
 ---
 
@@ -102,7 +101,6 @@ Server sends SSE stream → Huawei WAF receives and buffers everything → forwa
 | Cloudflare | ⚠️ Partial | Requires enterprise plan configuration / feature-dependent |
 | AWS WAF | ⚠️ Partial | Depends on load balancer config |
 | **Huawei Cloud WAF** | ❌ Has issues | Buffering + timeout prevents SSE from working in real-time |
-| **Tencent Cloud WAF** | ⚠️ Likely issues | Proxy-based cloud WAF architecture — SSE requires `X-Accel-Buffering: no` workaround to function |
 | FortiWeb | ⚠️ Partial | Must manually disable response buffering |
 
 > Ant2Cloud is designed to support **real-time streaming** from the ground up — whether AI chat, live monitoring, or event-driven applications work through the WAF without any workaround
@@ -142,15 +140,15 @@ Ant2 enforces 5 security layers, each catching what the previous missed:
 
 ## Ant2Cloud — Commercial Appliance
 
-| | Ant2Cloud | Cloudflare Business | Huawei Cloud WAF | Tencent Cloud WAF | FortiWeb (HW) |
-|--|-----------|--------------------|-----------------|-----------------| --------------|
-| **Price** | **฿250,000 (one-time)** | ~$3,000/yr | Pay-per-use/yr | Pay-per-use/yr | $10,000–$50,000 |
-| GeoIP Block | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ rate-based | ✅ rate-based | ✅ |
-| SSE / Streaming | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
-| Data Sovereignty | ✅ 100% on-premise | ❌ | ❌ through Huawei Cloud | ❌ through Tencent Cloud | ✅ |
-| Monthly fees | ❌ None | ✅ Yes | ✅ Yes | ✅ Yes | ❌ None |
-| Support | 🇹🇭 Thai local | Global | Global | Global | Partner |
+| | Ant2Cloud | Cloudflare Business | Huawei Cloud WAF | FortiWeb (HW) |
+|--|-----------|--------------------|-----------------| --------------|
+| **Price** | **฿250,000 (one-time)** | ~$3,000/yr | Pay-per-use/yr | $10,000–$50,000 |
+| GeoIP Block | ✅ | ✅ | ✅ | ✅ |
+| Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ rate-based | ✅ |
+| SSE / Streaming | ✅ | ⚠️ | ❌ | ⚠️ |
+| Data Sovereignty | ✅ 100% on-premise | ❌ | ❌ through Huawei Cloud | ✅ |
+| Monthly fees | ❌ None | ✅ Yes | ✅ Yes | ❌ None |
+| Support | 🇹🇭 Thai local | Global | Global | Partner |
 
 🌐 [ant2cloud.com](https://ant2cloud.com)
 

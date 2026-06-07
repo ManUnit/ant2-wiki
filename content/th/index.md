@@ -116,18 +116,18 @@ WAF ทั่วโลก block จาก **rate** (จำนวน request ต�
 
 ### เปรียบกับ WAF ชั้นนำของโลก
 
-| | Ant2Cloud | Cloudflare Business | Imperva | Huawei Cloud WAF | Tencent Cloud WAF | FortiWeb |
-|--|-----------|--------------------|---------|-----------------|-----------------| ---------|
-| ราคา | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | ~$20,000+/ปี | Pay-per-use | Pay-per-use | $10,000–$50,000 |
-| GeoIP Block | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ behavioral | ✅ rate-based | ✅ rate-based | ✅ |
-| Real IP Detection | ✅ | N/A (IS CF) | ✅ | ✅ | ✅ | ✅ |
-| SSE / Streaming | ✅ | ⚠️ | ⚠️ | ❌ *(Mar 2026)* | ⚠️ | ⚠️ |
-| Data Sovereignty | ✅ **100% on-premise** | ❌ ผ่าน CF | ❌ ผ่าน Imperva | ❌ Huawei Cloud | ❌ Tencent Cloud | ✅ |
-| VOIP Server | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ | ❌ |
-| ONU/ONT | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ | ❌ |
-| VM Platform | ✅ **20 VMs** | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Smart Router | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ | ❌ |
+| | Ant2Cloud | Cloudflare Business | Imperva | Huawei Cloud WAF | FortiWeb |
+|--|-----------|--------------------|---------|-----------------| ---------|
+| ราคา | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | ~$20,000+/ปี | Pay-per-use | $10,000–$50,000 |
+| GeoIP Block | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ behavioral | ✅ rate-based | ✅ |
+| Real IP Detection | ✅ | N/A (IS CF) | ✅ | ✅ | ✅ |
+| SSE / Streaming | ✅ | ⚠️ | ⚠️ | ❌ *(Mar 2026)* | ⚠️ |
+| Data Sovereignty | ✅ **100% on-premise** | ❌ ผ่าน CF | ❌ ผ่าน Imperva | ❌ Huawei Cloud | ✅ |
+| VOIP Server | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ |
+| ONU/ONT | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ |
+| VM Platform | ✅ **20 VMs** | ❌ | ❌ | ❌ | ❌ |
+| Smart Router | ✅ **built-in** | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -152,7 +152,6 @@ WAF ทั่วโลก block จาก **rate** (จำนวน request ต�
 |-----|------------|
 | **Ant2Cloud** | ✅ รองรับเต็มที่ — ออกแบบมาให้ streaming ทำงานได้ทันที |
 | **Huawei Cloud WAF** | ❌ มีปัญหา buffering + timeout *(Mar 2026)* |
-| **Tencent Cloud WAF** | ⚠️ น่าจะมีปัญหา — สถาปัตยกรรม proxy-based ต้องใช้ workaround |
 | Cloudflare | ⚠️ ขึ้นอยู่กับ plan |
 | AWS WAF | ⚠️ ขึ้นอยู่กับ config |
 
