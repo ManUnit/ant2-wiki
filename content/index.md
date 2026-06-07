@@ -131,6 +131,32 @@ WAF ทั่วโลก block จาก **rate** (จำนวน request ต�
 
 ---
 
+## Huawei Cloud WAF — ปัญหา SSE Streaming *(issue detected Mar 2026)*
+
+> **Huawei Cloud WAF** มีปัญหากับ **SSE (Server-Sent Events)** — เทคโนโลยีที่ใช้ใน AI chat, live dashboard, และ real-time notification
+
+**สาเหตุ:** Huawei WAF ทำงานเป็น proxy ที่ **buffer response ก่อน forward** ไปยัง client — แต่ SSE คือ stream ที่ไม่มีจุดสิ้นสุด WAF รอ buffer เสร็จ → ไม่มีวันเสร็จ
+
+| ปัญหา | อาการที่พบ |
+|-------|-----------|
+| Response buffering | SSE events ไม่ถึง client real-time — ค้างรอ |
+| Connection timeout | WAF ตัด long-lived connection ก่อนเวลา |
+| Chunked transfer | ทำลาย streaming — events มาเป็น batch แทน |
+
+**ผลกระทบจริง:**
+- AI chat application → หน้าจอค้าง ตัวอักษรไม่เด้ง
+- Live dashboard → ข้อมูลไม่ update จนกว่าจะ reconnect
+- Notification system → notifications มาพร้อมกันเป็นกลุ่ม
+
+| WAF | SSE Support |
+|-----|------------|
+| **Ant2Cloud** | ✅ รองรับเต็มที่ — ออกแบบมาให้ streaming ทำงานได้ทันที |
+| **Huawei Cloud WAF** | ❌ มีปัญหา buffering + timeout *(Mar 2026)* |
+| Cloudflare | ⚠️ ขึ้นอยู่กับ plan |
+| AWS WAF | ⚠️ ขึ้นอยู่กับ config |
+
+---
+
 ## สำหรับใคร?
 
 - 🏢 **SME / Office** — ต้องการ Private Cloud + VOIP + Security ในงบเดียว
