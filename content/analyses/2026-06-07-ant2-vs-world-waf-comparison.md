@@ -136,18 +136,6 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 
 ---
 
-## สิ่งที่ Commercial WAF มีแต่ Ant2 ไม่มี
-
-| Feature | Commercial WAFs | Ant2 |
-|---------|----------------|------|
-| Global threat intelligence | ✅ | ❌ |
-| Layer 3/4 DDoS (Tbps-scale) | ✅ | ❌ (L7 เท่านั้น) |
-| Bot fingerprinting / JS challenge | ✅ | ❌ |
-| Multi-CDN edge distribution | ✅ | ❌ |
-| 24×7 SOC + managed rules | ✅ | ❌ self-managed |
-
-**Ant2Cloud เหมาะสำหรับ:** องค์กรที่ต้องการ data sovereignty, ควบคุมค่าใช้จ่าย, และ visibility เต็มรูปแบบ โดยไม่ต้องจ่ายรายเดือนให้ SaaS
-
 ---
 
 ## Ant2Cloud — Commercial Appliance
