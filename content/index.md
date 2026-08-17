@@ -33,7 +33,7 @@ GPON Fiber ──→ [ Ant2Cloud Box ] ──→ Private Cloud
 | Storage | 2 TB |
 | VM Capacity | 20 VMs |
 | Form Factor | Router style — slim & lightweight |
-| Price | **Cheaper Local price ** |
+| Price | **Preferential Local Price** |
 
 ---
 
@@ -118,7 +118,7 @@ Most WAFs worldwide block based on **rate** (requests per minute)
 
 | | Ant2Cloud | Cloudflare Business | Imperva | Huawei Cloud WAF | FortiWeb |
 |--|-----------|--------------------|---------|-----------------| ---------|
-| Price | **฿250,000 (one-time)** | ~$3,000/yr | ~$20,000+/yr | Pay-per-use | $10,000–$50,000 |
+| Price | ** (one-time)** | ~$3,000/yr | ~$20,000+/yr | Pay-per-use | $10,000–$50,000 |
 | GeoIP Block | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ behavioral | ✅ rate-based | ✅ |
 | Real IP Detection | ✅ | N/A (IS CF) | ✅ | ✅ | ✅ |
