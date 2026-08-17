@@ -33,7 +33,7 @@ GPON Fiber ──→ [ Ant2Cloud Box ] ──→ Private Cloud
 | Storage | 2 TB |
 | VM Capacity | 20 VMs |
 | Form Factor | Router style — slim & lightweight |
-| Price | **฿250,000 THB** |
+| Price | **Cheaper Local price ** |
 
 ---
 
