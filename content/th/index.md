@@ -118,7 +118,7 @@ WAF ทั่วโลก block จาก **rate** (จำนวน request ต�
 
 | | Ant2Cloud | Cloudflare Business | Imperva | Huawei Cloud WAF | FortiWeb |
 |--|-----------|--------------------|---------|-----------------| ---------|
-| ราคา | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | ~$20,000+/ปี | Pay-per-use | $10,000–$50,000 |
+| ราคา | ** Call sale ** | ~$3,000/ปี | ~$20,000+/ปี | Pay-per-use | $10,000–$50,000 |
 | GeoIP Block | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ behavioral | ✅ rate-based | ✅ |
 | Real IP Detection | ✅ | N/A (IS CF) | ✅ | ✅ | ✅ |
