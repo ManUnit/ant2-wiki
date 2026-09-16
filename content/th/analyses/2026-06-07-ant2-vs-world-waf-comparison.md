@@ -18,7 +18,7 @@ updated: 2026-06-07
 
 | Solution | GeoIP Block | Static IP Block | Auto-Jail | Cost |
 |----------|:-----------:|:---------------:|:---------:|------|
-| **Ant2Cloud (Thailand 🇹🇭)** | ✅ | ✅ | ✅ WAF-event-based | **฿250,000 (ครั้งเดียว)** |
+| **Ant2Cloud (Thailand 🇹🇭)** | ✅ | ✅ | ✅ WAF-event-based | **call sale** |
 | Cloudflare WAF | ✅ | ✅ | ✅ rate-based | Free → Enterprise/ปี |
 | AWS WAF + Shield | ✅ | ✅ | ✅ rate-based | Pay-per-request |
 | Huawei Cloud WAF | ✅ | ✅ | ✅ rate-based | Pay-per-use |
@@ -133,7 +133,7 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 | Custom error pages | ✅ | ❌ |
 | SSE / Streaming | ✅ | ✅ |
 | Data sovereignty | ✅ 100% on-premise | ✅ |
-| Cost | **฿250,000 (ครั้งเดียว)** | Free / Paid |
+| Cost | **Call sale** | Free / Paid |
 
 ---
 
@@ -143,7 +143,7 @@ Ant2 บังคับ security 5 ชั้น แต่ละชั้นจ�
 
 | | Ant2Cloud | Cloudflare Business | Huawei Cloud WAF | FortiWeb (HW) |
 |--|-----------|--------------------|-----------------| --------------|
-| **ราคา** | **฿250,000 (ครั้งเดียว)** | ~$3,000/ปี | Pay-per-use/ปี | $10,000–$50,000 |
+| **ราคา** | ** Call sale ** | ~$3,000/ปี | Pay-per-use/ปี | $10,000–$50,000 |
 | GeoIP Block | ✅ | ✅ | ✅ | ✅ |
 | Auto IP Jail | ✅ event-based | ✅ rate-based | ✅ rate-based | ✅ |
 | SSE / Streaming | ✅ | ⚠️ | ❌ | ⚠️ |
