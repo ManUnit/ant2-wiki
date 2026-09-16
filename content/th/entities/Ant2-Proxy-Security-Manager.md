@@ -20,7 +20,7 @@ updated: 2026-05-12
 | Product name | **Ant2Cloud** |
 | Website | **https://ant2cloud.com** |
 | Form factor | Hardware box appliance — router style, บางเบา |
-| Price | **฿250,000 THB** |
+| Price | **Call Sale** |
 | Origin | Thailand 🇹🇭 — พัฒนาและผลิตในประเทศไทย |
 
 ### Hardware Specifications
